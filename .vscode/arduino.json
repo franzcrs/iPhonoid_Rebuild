@@ -1,0 +1,6 @@
+{
+    "port": "/dev/cu.usbmodem1301",
+    "board": "arduino:avr:uno",
+    "programmer": "arduino:avrispmkii",
+    "sketch": "arduino/servo_identification/servo_identification.ino"
+}
