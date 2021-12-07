@@ -1,7 +1,7 @@
 /**
  * @file servo_identification.ino
  * @author Franz Chuquirachi (@franzcrs)
- * @brief Run verification of servos connected to Dynamixel Shield of the half-built iPhonoid
+ * @brief Performs an identification of servos connected to Dynamixel Shield of the half-built iPhonoid
  * @version 0.1
  * @date 2021-12-06
  * 
@@ -10,6 +10,7 @@
  */
 
 #include <DynamixelShield.h>
+#include <stdarg.h>
 
 /**
  * DYNAMIXELShield uses digital pins (0,1) to communicate with the servos.
@@ -38,21 +39,65 @@ DynamixelShield dxl;							// Declaring an instance of DynamixelShield
 using namespace ControlTableItem; // Required namespace to use Controltable item names
 
 /**
+ * @brief Function for formatted printing in Arduino, same as printf of C language. Prints to DEBUG_SERIAL.
+ * 
+ * @param input Formatted string and then the variable names followed by comma
+ */
+void Serialprintln(const char *input...)
+{
+	va_list args;
+	va_start(args, input);
+	for (const char *i = input; *i != 0; ++i)
+	{
+		if (*i != '%')
+		{
+			DEBUG_SERIAL.print(*i);
+			continue;
+		}
+		switch (*(++i))
+		{
+		case '%':
+			DEBUG_SERIAL.print('%');
+			break;
+		case 's':
+			DEBUG_SERIAL.print(va_arg(args, char *));
+			break;
+		case 'd':
+			DEBUG_SERIAL.print(va_arg(args, int), DEC);
+			break;
+		case 'b':
+			DEBUG_SERIAL.print(va_arg(args, int), BIN);
+			break;
+		case 'o':
+			DEBUG_SERIAL.print(va_arg(args, int), OCT);
+			break;
+		case 'x':
+			DEBUG_SERIAL.print(va_arg(args, int), HEX);
+			break;
+		case 'f':
+			DEBUG_SERIAL.print(va_arg(args, double), 2);
+			break;
+		}
+	}
+	DEBUG_SERIAL.println();
+	va_end(args);
+}
+
+/**
  * @brief Displays verification of existance of servo in the DEBUG_SERIAL interface
  * 
  * @param id id number of servo to verify
  */
 void verifyservo(byte id)
 {
-	DEBUG_SERIAL.print("The servo with ID = ");
-	DEBUG_SERIAL.print(id);
 	if (dxl.ping(id) == true)
 	{
-		DEBUG_SERIAL.println(" exists");
+		Serialprintln("The servo with ID = %d exists, its model is: %d", id, dxl.getModelNumber(id));
+		// TODO: Make a simple movement after acknowledge
 	}
 	else
 	{
-		DEBUG_SERIAL.println(" does not exist");
+		Serialprintln("The servo with ID = %d doesn't exist", id);
 	}
 }
 
