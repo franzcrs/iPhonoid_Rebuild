@@ -1,8 +1,8 @@
 /**
  * @file servo_identification.ino
  * @author Franz Chuquirachi (@franzcrs)
- * @brief Performs an identification of servos connected to Dynamixel Shield of the half-built iPhonoid
- * @version 0.1
+ * @brief Performs identification of servos connected to Dynamixel Shield of the half-built iPhonoid through a display of motion
+ * @version 0.2
  * @date 2021-12-06
  * 
  * @copyright Copyright (c) 2021
@@ -23,15 +23,16 @@
  * https://emanual.robotis.com/docs/en/parts/interface/dynamixel_shield/
  * */
 #if defined(ARDUINO_AVR_UNO) || defined(ARDUINO_AVR_MEGA2560)
-	#include <SoftwareSerial.h>
-	SoftwareSerial soft_serial(7, 8); // New Arduino/DYNAMIXELShield UART pins
-	#define DEBUG_SERIAL soft_serial
+#include <SoftwareSerial.h>
+SoftwareSerial soft_serial(7, 8); // New Arduino/DYNAMIXELShield UART pins
+#define DEBUG_SERIAL soft_serial
 #elif defined(ARDUINO_SAM_DUE) || defined(ARDUINO_SAM_ZERO)
-	#define DEBUG_SERIAL SerialUSB
+#define DEBUG_SERIAL SerialUSB
 #else
-	#define DEBUG_SERIAL Serial
+#define DEBUG_SERIAL Serial
 #endif
 
+const byte MAX_ID = 4;									// Max id number to identify
 const float DXL_PROTOCOL_VERSION = 1.0; // Servos AX-12A use protocol 1.0
 // Refer to Compatibility Table in: https://emanual.robotis.com/docs/en/dxl/protocol1/
 
@@ -43,7 +44,7 @@ using namespace ControlTableItem; // Required namespace to use Controltable item
  * 
  * @param input Formatted string and then the variable names followed by comma
  */
-void Serialprintln(const char *input...)
+void DEBUG_SERIALprintln(const char *input...)
 {
 	va_list args;
 	va_start(args, input);
@@ -84,20 +85,76 @@ void Serialprintln(const char *input...)
 }
 
 /**
- * @brief Displays verification of existance of servo in the DEBUG_SERIAL interface
+ * @brief Displays verification of existance of servo in the DEBUG_SERIAL interface and return the boolean result of the verification
  * 
- * @param id id number of servo to verify
+ * @param id Id number of servo to verify in uint8_t data type
  */
-void verifyservo(byte id)
+bool verifyServo(byte id)
 {
 	if (dxl.ping(id) == true)
 	{
-		Serialprintln("The servo with ID = %d exists, its model is: %d", id, dxl.getModelNumber(id));
-		// TODO: Make a simple movement after acknowledge
+		DEBUG_SERIALprintln("The servo with ID = %d exists, its model is: %d", id, dxl.getModelNumber(id));
+		return true;
 	}
 	else
 	{
-		Serialprintln("The servo with ID = %d doesn't exist", id);
+		DEBUG_SERIALprintln("The servo with ID = %d doesn't exist", id);
+		return false;
+	}
+}
+
+/**
+ * @brief Run a back and forth motion for the servo with entered id
+ * 
+ * @param id id number of servo to move in uint8_t data type
+ */
+void backforthMotion(byte id)
+{
+	float position = dxl.getPresentPosition(id, UNIT_DEGREE);
+	position = position + 40;
+	dxl.setGoalPosition(id, position, UNIT_DEGREE);
+	delay(100);
+	position = position - 40;
+	dxl.setGoalPosition(id, position, UNIT_DEGREE);
+}
+
+/**
+ * @brief Prints a loading pattern consisting on repeating a dot & Return for the times specified
+ * 
+ * @param repetitions number of repetitions of the loading pattern in uint8_t data type
+ */
+void loadingPattern(byte repetitions)
+{
+	delay(1700);
+	for (byte i = 0; i < repetitions; i++)
+	{
+		DEBUG_SERIAL.println(" . ");
+		delay(1700);
+	}
+}
+
+/**
+ * @brief Allows user to identify a servo among many by performing a motion on the current id count
+ * 
+ * @param id id number of servo to identify in uint8_t data type
+ */
+void indentifyServo(byte id)
+{
+	if (verifyServo(id))
+	{
+		loadingPattern(1);
+		DEBUG_SERIALprintln("The mentioned servo is going to move");
+		loadingPattern(1);
+		dxl.torqueOff(id);
+		dxl.setOperatingMode(id, OP_POSITION);
+		dxl.torqueOn(id);
+		backforthMotion(id);
+		DEBUG_SERIALprintln("You can write down the joint the servo with ID = %d drives", id);
+	}
+	else
+	{
+		loadingPattern(1);
+		DEBUG_SERIAL.println("You can ignore this count");
 	}
 }
 
@@ -111,11 +168,24 @@ void setup()
 
 void loop()
 {
+	// TODO: Make an interactive interface through serial monitor
 	static byte DXL_ID = 1;
-	verifyservo(DXL_ID);
+	// Un-comment one of the following function depending on your goal
+	// verifyServo(DXL_ID); // Displays verification of existance of servo in the DEBUG_SERIAL interface
+	indentifyServo(DXL_ID); // Allows user to identify a servo among many by performing a motion on the current id count
 	DXL_ID++;
-	if (DXL_ID > 9){
+	if (DXL_ID > MAX_ID)
+	{
 		DXL_ID = 1;
 	}
-	delay(1000);
+	loadingPattern(3);
 }
+
+/**
+ * Chart of Servo IDs and its driven joint
+ * 1 -- RIGHT ARM
+ * 2 -- LEFT ARM
+ * 3 -- NECK YAW
+ * 4 -- NECK PITCH
+ * 
+ */
