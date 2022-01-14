@@ -9,8 +9,8 @@
  * 			hz(0x687A)  HEAD Z-AXIS
  * 			hx(0x6878)  HEAD X-AXIS
  * 		Every input string must end with a Carriage Return character: 0x0d
- * @version 0.2
- * @date 2021-12-13
+ * @version 0.3
+ * @date 2022-01-14
  * 
  * @copyright Copyright (c) 2021
  * 
@@ -57,10 +57,10 @@ using namespace ControlTableItem; // Required namespace to use servo's Controlta
 
 const byte COMM_LEN = 2;							// Length of commands to be received (User-defined)
 const byte BUFFER_LEN = COMM_LEN + 1; // Buffer length equals command length + 1 space
-const bool LEN_STRICT = true;					// Length strictness says if verification of command length is going to be performed (User-defined)
+const bool LEN_STRICT = true;					// Length strictness says if verification of command length is going to be performed
 char message[BUFFER_LEN];							// Char array for received data. Length of array must be a const variable
-byte index = 0;												// Index position of message char array
-bool returnMsg = false;								// Flag that allows the use or operation of message array
+byte index = 0;												// Index position of message char array and counter of characters received
+bool returnMsg = false;								// Flag that tells whether a message was successfully obtained and ready to use
 unsigned long indexIncrementTime, dataAvailableAckTime;
 
 /**
@@ -130,7 +130,11 @@ void DEBUG_SERIALprintln(const char *input...)
 /**
  * @brief Run a back and forth motion for the servo with entered id
  * 
- * @param id id number of servo to move in uint8_t data type
+ * @param id id number of servo to move in uint8_t data type. List of servo IDs and their driven joints: 
+ * 						1 - RIGHT ARM, 
+ * 						2 - LEFT ARM, 
+ * 						3 - HEAD Z-AXIS, 
+ * 						4 - HEAD X-AXIS
  */
 void backforthMotion(byte id)
 {
@@ -183,56 +187,57 @@ void backforthMotion(byte id)
 }*/
 
 /**
- * @brief Collects the transmitted data on BT_SERIAL interface from an external device and store the characters
+ * @brief Collects the transmitted data to BT_SERIAL interface from an external device and store the characters
  * inside message array of constant length. 
  * 
  * @param strictlen Defines if the program will verify whether the received message has the exact command length.
  * If true, only if it has the exact length the command will be displayed. Otherwise, an error message will be displayed.
  * If false, the received message will be displayed anyways. The number of characters to display is limited by the command lenght.
  */
-void BT_SERIALgetmessage(bool strictlen) // TODO: Optimize function
+void BT_SERIALgetmessage(bool strictlen)
 {
-	if (index == 0) // index = 0 indicates that program is ready to received a new message
+	if (index == 0) // index = 0 indicates the counter has been emptied, therefore program is ready to received a new message
 	{
-		DEBUG_SERIAL.println("--------------------------");
-		DEBUG_SERIAL.println("Waiting for user input");
+		DEBUG_SERIAL.println(F("--------------------------\r\n"
+													 "Waiting for user input"));
 		while (BT_SERIAL.available() == 0)
 		{
 		}
-		DEBUG_SERIAL.println("Data received!");
+		DEBUG_SERIAL.println(F("Data received!"));
 	}
 
 	if (BT_SERIAL.available()) // Avoid to use while available since a software serial can return false in
 														 // the middle of a transmitted string due to the nature of serial emulation
 	{
-		if (index != 0)
-		{
-			dataAvailableAckTime = millis();
-			//DEBUG_SERIALprintln("dataAvailableAckTime: %d", dataAvailableAckTime);
-			//DEBUG_SERIALprintln("Elapsed time from last index increment to acknowledge of "
-			//										"new data available to read from BT module is: %d",
-			//										(dataAvailableAckTime - indexIncrementTime));
-		}
+		// if (index != 0) // After the first character is read, this code is executed
+		// {
+		// 	dataAvailableAckTime = millis();
+		// 	DEBUG_SERIALprintln("dataAvailableAckTime: %d", dataAvailableAckTime);
+		// 	DEBUG_SERIALprintln("Elapsed time from last index increment to acknowledge of "
+		// 											"new data available to read from BT module is: %d",
+		// 											(dataAvailableAckTime - indexIncrementTime));
+		// }
 		char readchar = BT_SERIAL.read();
-		if (readchar != '\r') // Input message should end with a Carriage Return character: 0x0d
+		if (readchar != '\r') // Read value is going to be manipulated only if is not the Carriage Return character: 0x0d
 		{
 			if (index < (BUFFER_LEN - 1)) // At least one space must be left empty at the end of our char array
 																		// so that a null character can be added at the end, and therefore
 																		// be printable through any of the print() methods
 			{
-				message[index] = readchar;
+				message[index] = readchar; // Read value is appended only if the index counter is a position before
+																	 // the last position of message array (BUFFER_LEN - 1)
 			}
-			index++;
+			index++; // Anyways the index counter is incremented to track the number of characters received
 			indexIncrementTime = millis();
-			//DEBUG_SERIALprintln("indexIncrementTime: %d",indexIncrementTime);
+			// DEBUG_SERIALprintln("indexIncrementTime: %d",indexIncrementTime);
 		}
-		else
+		else // Code to run when the read value IS the Carriage Return character: 0x0d
 		{
 			if (strictlen)
 			{
 				if (index != (BUFFER_LEN - 1))
 				{
-					DEBUG_SERIAL.println("ERROR: Input doesn't match command length");
+					DEBUG_SERIAL.println(F("ERROR: Input doesn't match command length"));
 				}
 				else
 				{
@@ -243,14 +248,14 @@ void BT_SERIALgetmessage(bool strictlen) // TODO: Optimize function
 			{
 				if (index > (BUFFER_LEN - 1))
 				{
-					DEBUG_SERIAL.println("WARNING: Input exceeds command length");
+					DEBUG_SERIAL.println(F("WARNING: Input exceeds command length"));
 				}
 				returnMsg = true;
 			}
-			index = 0;
+			index = 0; // Only if there was a Carriage Return character, the counter is emptied
 		}
 	}
-	else
+	else // When there is no data available in BT buffer
 	{
 		if (index != 0) // Handler of receiving data with no Carriage Return termination
 										// When there is no data available and the index has not become 0 it can mean two things: a new
@@ -260,75 +265,84 @@ void BT_SERIALgetmessage(bool strictlen) // TODO: Optimize function
 										// needs to be able to handle it
 		{
 			// The way to identify that we are in the case of the user error is by checking the elapsed time from the last
-			// index increment moment until the ocurrence of this situation. If the elapsed time is greater than 10 it is
-			// sure that we are not in the middle of bluetooth transmission (I measured the time)
+			// index increment moment until the ocurrence of this situation. If the elapsed time is greater than 10ms it is
+			// sure that we are not in the middle of bluetooth transmission (Tests were undergone for measuring the time)
 			unsigned long currentTime = millis();
 			unsigned long elapsedTime = currentTime - indexIncrementTime;
 			if (elapsedTime > 100)
 			{
-				DEBUG_SERIAL.println("ERROR: Input didn't end with Cariage Return");
-				index = 0;
+				DEBUG_SERIAL.println(F("ERROR: Input didn't end with Cariage Return"));
+				index = 0; // Now index is also emptied when message finished with no Carriage return character
 			}
 		}
 	}
 }
 
+const PROGMEM char comm_1[] = "ra"; // TODO: Generate more motions
+const PROGMEM char comm_2[] = "la";
+const PROGMEM char comm_3[] = "hz";
+const PROGMEM char comm_4[] = "hx";
+const PROGMEM char desc_1[] = "right arm";
+const PROGMEM char desc_2[] = "left arm";
+const PROGMEM char desc_3[] = "head sideways";
+const PROGMEM char desc_4[] = "head up and down";
+/**
+ * Commands Table (stored in Flash)
+ */
+const PROGMEM char *const commTable[] = {comm_1, comm_2, comm_3, comm_4};
+/**
+ * Descriptions Table (stored in Flash)
+ */
+const PROGMEM char *const descTable[] = {desc_1, desc_2, desc_3, desc_4};
+char buffer[20];
+
 /**
  * @brief Performs validation of received command against existing list of commands and translate it into a motion instruction
  * 
  */
-void decodeCommand()	// TODO: Optimize function
-											// TODO: Generate more motions
+void decodeCommand()
 {
-	if (returnMsg)
+	if (returnMsg) // Decoding happens only when a message was received succesfully
 	{
-		returnMsg = false;
-		BT_SERIAL.print(message);
+		returnMsg = false;				// Swaping to previous state
+		BT_SERIAL.print(message); //	Returning the read message to the sender
+		delay(100);
 		DEBUG_SERIALprintln("Received command: %s", message);
-		/**
-		 * Chart of Servo IDs and its driven joint
-		 * 1 -- RIGHT ARM
-		 * 2 -- LEFT ARM
-		 * 3 -- HEAD Z-AXIS
-		 * 4 -- HEAD X-AXIS
-		 */
-		if (strcmp(message, "ra") == 0)
+		int commCode; // Index of command inside the command table
+		for (byte i = 0; i < sizeof(commTable) / sizeof(*commTable); i++)
 		{
-			BT_SERIAL.print("i");
-			DEBUG_SERIAL.println("Command identified\r\n"
-													 "Moving right arm");
-			backforthMotion(1);
+			commCode = -1; // Assigning an imposible value of "array index" in case no command is found
+			strcpy_P(buffer,
+							 (char *)pgm_read_word(&(commTable[i]))); // Operations that copy a string from program memory (Flash) to a
+																												// string in RAM, as seen in: https://www.arduino.cc/reference/en/language/variables/utilities/progmem/
+																												// Extraction of command in position i of the Commands Table
+			if (strcmp(message, buffer) == 0)									// strcmp compares 2 strings. Refer to: https://www.cplusplus.com/reference/cstring/strcmp/
+			{
+				commCode = i;
+				break;
+			}
 		}
-		else if (strcmp(message, "la") == 0)
+		switch (commCode)
 		{
-			BT_SERIAL.print("i");
-			DEBUG_SERIAL.println("Command identified\r\n"
-													 "Moving left arm");
-			backforthMotion(2);
-		}
-		else if (strcmp(message, "hz") == 0)
-		{
-			BT_SERIAL.print("i");
-			DEBUG_SERIAL.println("Command identified\r\n"
-													 "Moving head sideways");
-			backforthMotion(3);
-		}
-		else if (strcmp(message, "hx") == 0)
-		{
-			BT_SERIAL.print("i");
-			DEBUG_SERIAL.println("Command identified\r\n"
-													 "Moving head up and down");
-			backforthMotion(4);
-		}
-		else
-		{
-			BT_SERIAL.print("n");
-			DEBUG_SERIAL.println("Command not identified");
+		case -1:								// -1 means the no matching command was found in the Commands Table
+			BT_SERIAL.print("n"); // Transmission of decoding result: "n" means "not identified"
+			DEBUG_SERIAL.println(F("Command not identified"));
+			break;
+		default:																													 // Case in which a matching command was found
+			BT_SERIAL.print("i");																						 // Transmission of enconding result: "i" means "identified"
+			strcpy_P(buffer, (char *)pgm_read_word(&(descTable[commCode]))); // Extraction of description associated to command i
+			DEBUG_SERIALprintln("Command identified\r\n"
+													"Moving %s",
+													buffer);
+			backforthMotion(commCode + 1); // Send motion instruction to corresponding servo
+			break;
 		}
 	}
 }
 
-void setup() // TODO: Optimize memory usage
+const char *const onoffChart[] = {"OFF", "ON"};
+
+void setup()
 {
 	DEBUG_SERIAL.begin(115200); // Initialize the Arduino - Computer communication interface
 	// When working besides AltSoftSerial, SoftwareSerial rates must be greater than 10 times the AltSoftSerial rate.
@@ -339,31 +353,19 @@ void setup() // TODO: Optimize memory usage
 	// Default baud rate of Servo AX-12A is 1 000 000 bps. Refer to: https://emanual.robotis.com/docs/en/dxl/ax/ax-12a/#baud-rate
 	dxl.setPortProtocolVersion(DXL_PROTOCOL_VERSION); //Configuring the protocol version of instance
 
-	DEBUG_SERIAL.println("THIS IS THE WIRELESS BLUETOOTH SERVO OPERATION PROGRAM");
-	/* Commented due to lack of memory
-	DEBUG_SERIAL.println("* Connect a device with Bluetooth 4.0 support to the 'DSD TECH' module\r\n"
-											 "* End every command with a Carriage return character (0x0d, 13 or '\\r')");
+	DEBUG_SERIAL.println(F("THIS IS THE WIRELESS BLUETOOTH SERVO OPERATION PROGRAM\r\n"
+												 "* Connect a device with Bluetooth 4.0 support to the 'DSD TECH' module\r\n"
+												 "* End every command with a Carriage return character (0x0d, 13 or '\\r')"));
 	DEBUG_SERIALprintln("* Command length: %d", COMM_LEN);
-	DEBUG_SERIAL.print("* Length strictness is: ");
-	switch (LEN_STRICT)
-	{
-	case true:
-		DEBUG_SERIAL.println("ON");
-		break;
-
-	default:
-		DEBUG_SERIAL.println("OFF");
-		break;
-	}
-	DEBUG_SERIAL.println("* User can change these values by code-editing COMM_LEN and LEN_STRICT");
-	*/
-	DEBUG_SERIAL.println("--------------------------\r\n"
-											 "Commands for servo operation:\r\n"
-											 "- COMMAND -\t\t- JOINT -\r\n"
-											 "ra(0x7261)\t RIGHT ARM\r\n"
-											 "la(0x6C61)\t LEFT ARM\r\n"
-											 "hz(0x687A)\t HEAD Z-AXIS\r\n"
-											 "hx(0x6878)\t HEAD X-AXIS");
+	DEBUG_SERIALprintln("* Length strictness is: %s", onoffChart[int(LEN_STRICT)]);
+	DEBUG_SERIAL.println(F("* User can change these values by code-editing COMM_LEN and LEN_STRICT\r\n"
+												 "--------------------------\r\n"
+												 "Commands for servo operation:\r\n"
+												 "- COMMAND -\t\t- JOINT -\r\n"
+												 "ra(0x7261)\t RIGHT ARM\r\n"
+												 "la(0x6C61)\t LEFT ARM\r\n"
+												 "hz(0x687A)\t HEAD Z-AXIS\r\n"
+												 "hx(0x6878)\t HEAD X-AXIS"));
 }
 
 void loop()
