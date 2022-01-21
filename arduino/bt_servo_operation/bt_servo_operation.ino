@@ -9,20 +9,20 @@
  * 			hz(0x687A)  HEAD Z-AXIS
  * 			hx(0x6878)  HEAD X-AXIS
  * 		Every input string must end with a Carriage Return character: 0x0d
- * @version 0.3
+ * @version 0.4
  * @date 2022-01-14
  * 
- * @copyright Copyright (c) 2021
+ * @copyright Copyright (c) 2022
  * 
  */
 
 #include <SoftwareSerial.h>
 #include <AltSoftSerial.h>
-#include <DynamixelShield.h>
+#include <Dynamixel2Arduino.h>
 #include <stdarg.h>
 
 /**
- * DYNAMIXELShield uses digital pins (0,1) to communicate with the servos.
+ * The DYNAMIXEL Shield uses digital pins (0,1) to communicate with the servos.
  * These are the same pins as in Arduino Uno/Mega, used for the usb communication.
  * Therefore, the wellknown 'Serial' interface (pins (0,1)) cannot be used and
  * another serial interface needs to be created. For the purpose of just sending
@@ -50,10 +50,13 @@ SoftwareSerial DEBUG_SERIAL(6, 7); // Arduino Uno pins (6,7) are (RX,TX) Serial 
  */
 AltSoftSerial BT_SERIAL; // Arduino Uno pins (8,9) are (RX,TX) Serial pins for communication with Bluetooth Module
 
-const float DXL_PROTOCOL_VERSION = 1.0; // Servos AX-12A use protocol 1.0
-// Refer to Compatibility Table in: https://emanual.robotis.com/docs/en/dxl/protocol1/
-DynamixelShield dxl;							// Declaring an instance of DynamixelShield
-using namespace ControlTableItem; // Required namespace to use servo's Controltable item names
+const float DXL_PROTOCOL_VERSION = 1.0;			// Servos AX-12A use protocol 1.0
+																						// Refer to Compatibility Table in: https://emanual.robotis.com/docs/en/dxl/protocol1/
+const uint8_t DXL_DIR_PIN = 2;							// The DYNAMIXEL Shield uses pin 2 as data flow direction control. Refer to Layout
+																						// in: https://emanual.robotis.com/docs/en/parts/interface/dynamixel_shield/#layout
+Dynamixel2Arduino dxl(Serial, DXL_DIR_PIN); // Declaring an instance of Dynamixel2Arduino. The DYNAMIXEL Shield exclusively uses
+																						// the Serial interface of pins 0 and 1. Check Layout in the previous link.
+using namespace ControlTableItem;						// Required namespace to use servo's Controltable item names
 
 const byte COMM_LEN = 2;							// Length of commands to be received (User-defined)
 const byte BUFFER_LEN = COMM_LEN + 1; // Buffer length equals command length + 1 space
@@ -61,7 +64,7 @@ const bool LEN_STRICT = true;					// Length strictness says if verification of c
 char message[BUFFER_LEN];							// Char array for received data. Length of array must be a const variable
 byte index = 0;												// Index position of message char array and counter of characters received
 bool returnMsg = false;								// Flag that tells whether a message was successfully obtained and ready to use
-unsigned long indexIncrementTime, dataAvailableAckTime;
+unsigned long indexIncrementTime;			// Variable for registering the timestamp in which happens the last index increment
 
 /**
  * @brief Function for formatted printing in Arduino, same as printf of C language. Prints to DEBUG_SERIAL.
@@ -187,10 +190,9 @@ void backforthMotion(byte id)
 }*/
 
 /**
- * @brief Collects the transmitted data to BT_SERIAL interface from an external device and store the characters
- * inside message array of constant length. 
+ * @brief Collects the received data in the buffer of BT_SERIAL interface and store the characters inside 'message' array. 
  * 
- * @param strictlen Defines if the program will verify whether the received message has the exact command length.
+ * @param strictlen Defines if the program will verify whether the received message has the expected command length.
  * If true, only if it has the exact length the command will be displayed. Otherwise, an error message will be displayed.
  * If false, the received message will be displayed anyways. The number of characters to display is limited by the command lenght.
  */
@@ -211,7 +213,7 @@ void BT_SERIALgetmessage(bool strictlen)
 	{
 		// if (index != 0) // After the first character is read, this code is executed
 		// {
-		// 	dataAvailableAckTime = millis();
+		// 	unsigned long dataAvailableAckTime = millis();
 		// 	DEBUG_SERIALprintln("dataAvailableAckTime: %d", dataAvailableAckTime);
 		// 	DEBUG_SERIALprintln("Elapsed time from last index increment to acknowledge of "
 		// 											"new data available to read from BT module is: %d",
@@ -305,7 +307,7 @@ void decodeCommand()
 	if (returnMsg) // Decoding happens only when a message was received succesfully
 	{
 		returnMsg = false;				// Swaping to previous state
-		BT_SERIAL.print(message); //	Returning the read message to the sender
+		BT_SERIAL.print(message); // Returning the read message to the sender
 		delay(100);
 		DEBUG_SERIALprintln("Received command: %s", message);
 		int commCode; // Index of command inside the command table
