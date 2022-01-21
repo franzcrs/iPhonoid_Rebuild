@@ -112,82 +112,29 @@ void DEBUG_SERIALprintln(const char *input...)
 }
 
 /**
- * @brief Displays verification of existance of servo in the DEBUG_SERIAL interface and return the boolean result of the verification
- * 
- * @param id Id number of servo to verify in uint8_t data type
- */
-/*bool verifyServo(byte id)
-{
-	if (dxl.ping(id) == true)
-	{
-		DEBUG_SERIALprintln("The servo with ID = %d exists, its model is: %d", id, dxl.getModelNumber(id));
-		return true;
-	}
-	else
-	{
-		DEBUG_SERIALprintln("The servo with ID = %d doesn't exist", id);
-		return false;
-	}
-}*/
-
-/**
  * @brief Run a back and forth motion for the servo with entered id
  * 
- * @param id id number of servo to move in uint8_t data type. List of servo IDs and their driven joints: 
+ * @param servoid id number of servo to move in uint8_t data type. List of servo IDs and their driven joints: 
  * 						1 - RIGHT ARM, 
  * 						2 - LEFT ARM, 
  * 						3 - HEAD Z-AXIS, 
  * 						4 - HEAD X-AXIS
  */
-void backforthMotion(byte id)
+void backforthMotion(byte servoid)
 {
-	float position = dxl.getPresentPosition(id, UNIT_DEGREE);
+	// Turning off the torque before writing in the EEPROM Area is a good practice
+  dxl.writeControlTableItem(TORQUE_ENABLE, servoid, 0);
+  // Configurations for Joint mode, refer to: https://emanual.robotis.com/docs/en/dxl/ax/ax-12a/#cwccw-angle-limit6-8
+  dxl.writeControlTableItem(CW_ANGLE_LIMIT, servoid, 0);
+  dxl.writeControlTableItem(CCW_ANGLE_LIMIT, servoid, 1023);
+  dxl.writeControlTableItem(TORQUE_ENABLE, servoid, 1);
+	float position = dxl.getPresentPosition(servoid, UNIT_DEGREE);
 	position = position + 40;
-	dxl.setGoalPosition(id, position, UNIT_DEGREE);
+	dxl.setGoalPosition(servoid, position, UNIT_DEGREE);
 	delay(100);
 	position = position - 40;
-	dxl.setGoalPosition(id, position, UNIT_DEGREE);
+	dxl.setGoalPosition(servoid, position, UNIT_DEGREE);
 }
-
-/**
- * @brief Prints a loading pattern consisting on repeating a dot & Return for the times specified
- * 
- * @param repetitions number of repetitions of the loading pattern in uint8_t data type
- */
-/*void loadingPattern(byte repetitions)
-{
-	delay(1700);
-	for (byte i = 0; i < repetitions; i++)
-	{
-		DEBUG_SERIAL.println(" . ");
-		delay(1700);
-	}
-}*/
-
-/**
- * @brief Allows user to identify a servo among many by performing a motion on the current id count
- * 
- * @param id id number of servo to identify in uint8_t data type
- */
-/*void indentifyServo(byte id)
-{
-	if (verifyServo(id))
-	{
-		loadingPattern(1);
-		DEBUG_SERIALprintln("The mentioned servo is going to move");
-		loadingPattern(1);
-		dxl.torqueOff(id);
-		dxl.setOperatingMode(id, OP_POSITION);
-		dxl.torqueOn(id);
-		backforthMotion(id);
-		DEBUG_SERIALprintln("You can write down the joint the servo with ID = %d drives", id);
-	}
-	else
-	{
-		loadingPattern(1);
-		DEBUG_SERIAL.println("You can ignore this count");
-	}
-}*/
 
 /**
  * @brief Collects the received data in the buffer of BT_SERIAL interface and store the characters inside 'message' array. 
