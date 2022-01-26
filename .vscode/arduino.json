@@ -1,6 +1,7 @@
 {
-    "port": "/dev/cu.usbserial-1130",
+    "port": "/dev/cu.usbserial-120",
     "board": "arduino:avr:uno",
     "programmer": "arduino:avrispmkii",
-    "sketch": "arduino/bt_servo_operation/bt_servo_operation.ino"
+    "sketch": "arduino/bt_servo_operation/bt_servo_operation.ino",
+    "output": "../arduino_builds"
 }
