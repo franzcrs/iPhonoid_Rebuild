@@ -16,9 +16,14 @@ struct iPhonoidUIApp: App {
     
     @UIApplicationDelegateAdaptor(AppDelegate.self) var appDelegate
     
+    @State private var eyeClosed: Bool = false
+    
     var body: some Scene {
         WindowGroup {
-            ContentView()
+//            ContentView()
+            EyeView(size: CGSize(width: 80, height: 280), closed: $eyeClosed)
+                .frame(width: 100, height: 320)
+                .background(Color.white)
         }
     }
 }

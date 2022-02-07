@@ -2,6 +2,7 @@
 //  ContentView.swift
 //  
 //  Playground for testing ideas and portions of code
+//  Later move code to a its proper single purpose View.swift file
 //  
 //  Version: 0.1
 //  Written using Swift 5.0
@@ -11,20 +12,55 @@
 
 import SwiftUI
 
+struct displayStandardDimensions {
+    func width() -> CGFloat {
+        return UIScreen.main.fixedCoordinateSpace.bounds.width
+    }
+    func height() -> CGFloat {
+        return UIScreen.main.fixedCoordinateSpace.bounds.height
+    }
+}
+
 struct ContentView: View {
+    
+    var displayStandard = displayStandardDimensions()
+    
     var body: some View {
         HStack (alignment: .center, spacing: 0) {
             Rectangle()
                 .fill(Color.black)
-                .frame(width: 40) // 40 pts will adapt to the device and cover the notch
-            RoundedRectangle(cornerRadius: 25)
-                .padding(6)
-                .foregroundColor(Color.white)
-                .overlay(Text("'-' ._____. '-'")
-                            .foregroundColor(Color.black))
+                .frame(width: self.displayStandard.width() > 375 ? 40 : 20) // 40 pts will cover the notch for devices bigger than iphone 7, 8, SE
+            ZStack(alignment: .center) {
+                RoundedRectangle(cornerRadius: 25)
+                    .padding(6)
+                    .foregroundColor(Color.white)
+//                    .overlay(Text("'-' ._____. '-'")
+//                            .foregroundColor(Color.black))
+                VStack(alignment: .center, spacing: self.displayStandard.width() / 12) {
+                    Rectangle()
+                        .fill(Color.white)
+                        .frame(height: 1)
+                    HStack(alignment: .top,
+                           spacing: self.displayStandard.width() / 4.6) {
+                        Image("eye1")
+                            .renderingMode(.original)
+                            .resizable()
+                            .aspectRatio(contentMode: .fit)
+                        Image("eye1")
+                            .renderingMode(.original)
+                            .resizable()
+                            .aspectRatio(contentMode: .fit)
+                    }.frame(height: .maximum(180, self.displayStandard.width() / 2))
+                    Image("mouth1")
+                        .renderingMode(.original)
+                        .resizable()
+                        .aspectRatio(contentMode: .fit)
+                        .frame(width: self.displayStandard.width() / 3)
+                }.padding(6)
+            }
             Rectangle()
                 .fill(Color.black)
-                .frame(width: 40)
+                .frame(width: self.displayStandard.width() > 375 ? 40 : 20)
         }
         .ignoresSafeArea()
         .background(Color.black)
@@ -44,7 +80,7 @@ struct ContentView_Previews: PreviewProvider {
         Group {
             ContentView()
                 .previewInterfaceOrientation(.landscapeRight)
-                .previewDevice("iPhone 13 Pro")
+                .previewDevice("iPhone 12 Pro")
         }
     }
 }
