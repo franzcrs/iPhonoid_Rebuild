@@ -7,20 +7,28 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		B21A9CDE27B21BF500D8A7FD /* FaceView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B21A9CDD27B21BF500D8A7FD /* FaceView.swift */; };
+		B21A9CE227B22F5A00D8A7FD /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = B21A9CE127B22F5A00D8A7FD /* AppDelegate.swift */; };
+		B21A9CE627B252A100D8A7FD /* UIAttributesManagement.swift in Sources */ = {isa = PBXBuildFile; fileRef = B21A9CE527B252A100D8A7FD /* UIAttributesManagement.swift */; };
 		B21B77BD27A263D800BAAC66 /* iPhonoidUIApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = B21B77BC27A263D800BAAC66 /* iPhonoidUIApp.swift */; };
 		B21B77BF27A263D800BAAC66 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B21B77BE27A263D800BAAC66 /* ContentView.swift */; };
 		B21B77C127A263D900BAAC66 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = B21B77C027A263D900BAAC66 /* Assets.xcassets */; };
 		B21B77C427A263D900BAAC66 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = B21B77C327A263D900BAAC66 /* Preview Assets.xcassets */; };
 		B247B63227AD9787009B07EB /* EyeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B247B63127AD9787009B07EB /* EyeView.swift */; };
+		B263B24C27B2B03C00F1467D /* Errors.swift in Sources */ = {isa = PBXBuildFile; fileRef = B263B24B27B2B03C00F1467D /* Errors.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		B21A9CDD27B21BF500D8A7FD /* FaceView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FaceView.swift; sourceTree = "<group>"; };
+		B21A9CE127B22F5A00D8A7FD /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
+		B21A9CE527B252A100D8A7FD /* UIAttributesManagement.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIAttributesManagement.swift; sourceTree = "<group>"; };
 		B21B77B927A263D800BAAC66 /* iPhonoidUI.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = iPhonoidUI.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		B21B77BC27A263D800BAAC66 /* iPhonoidUIApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = iPhonoidUIApp.swift; sourceTree = "<group>"; };
 		B21B77BE27A263D800BAAC66 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		B21B77C027A263D900BAAC66 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		B21B77C327A263D900BAAC66 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		B247B63127AD9787009B07EB /* EyeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EyeView.swift; sourceTree = "<group>"; };
+		B263B24B27B2B03C00F1467D /* Errors.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Errors.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -34,6 +42,31 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		B21A9CE327B22FB800D8A7FD /* Face */ = {
+			isa = PBXGroup;
+			children = (
+				B21A9CDD27B21BF500D8A7FD /* FaceView.swift */,
+				B21A9CE427B242D500D8A7FD /* View components */,
+			);
+			path = Face;
+			sourceTree = "<group>";
+		};
+		B21A9CE427B242D500D8A7FD /* View components */ = {
+			isa = PBXGroup;
+			children = (
+				B247B63127AD9787009B07EB /* EyeView.swift */,
+			);
+			path = "View components";
+			sourceTree = "<group>";
+		};
+		B21A9CE727B252B300D8A7FD /* Utilities */ = {
+			isa = PBXGroup;
+			children = (
+				B21A9CE527B252A100D8A7FD /* UIAttributesManagement.swift */,
+			);
+			path = Utilities;
+			sourceTree = "<group>";
+		};
 		B21B77B027A263D800BAAC66 = {
 			isa = PBXGroup;
 			children = (
@@ -54,8 +87,11 @@
 			isa = PBXGroup;
 			children = (
 				B21B77BC27A263D800BAAC66 /* iPhonoidUIApp.swift */,
+				B21A9CE127B22F5A00D8A7FD /* AppDelegate.swift */,
+				B263B24E27B2B08B00F1467D /* Enums */,
+				B21A9CE327B22FB800D8A7FD /* Face */,
+				B21A9CE727B252B300D8A7FD /* Utilities */,
 				B21B77BE27A263D800BAAC66 /* ContentView.swift */,
-				B247B63127AD9787009B07EB /* EyeView.swift */,
 				B21B77C027A263D900BAAC66 /* Assets.xcassets */,
 				B21B77C227A263D900BAAC66 /* Preview Content */,
 			);
@@ -68,6 +104,14 @@
 				B21B77C327A263D900BAAC66 /* Preview Assets.xcassets */,
 			);
 			path = "Preview Content";
+			sourceTree = "<group>";
+		};
+		B263B24E27B2B08B00F1467D /* Enums */ = {
+			isa = PBXGroup;
+			children = (
+				B263B24B27B2B03C00F1467D /* Errors.swift */,
+			);
+			path = Enums;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -140,7 +184,11 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				B21A9CE227B22F5A00D8A7FD /* AppDelegate.swift in Sources */,
+				B21A9CE627B252A100D8A7FD /* UIAttributesManagement.swift in Sources */,
 				B21B77BF27A263D800BAAC66 /* ContentView.swift in Sources */,
+				B263B24C27B2B03C00F1467D /* Errors.swift in Sources */,
+				B21A9CDE27B21BF500D8A7FD /* FaceView.swift in Sources */,
 				B21B77BD27A263D800BAAC66 /* iPhonoidUIApp.swift in Sources */,
 				B247B63227AD9787009B07EB /* EyeView.swift in Sources */,
 			);
@@ -200,7 +248,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.2;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
 				ONLY_ACTIVE_ARCH = YES;
@@ -255,7 +303,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.2;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
 				SDKROOT = iphoneos;
@@ -276,9 +324,11 @@
 				DEVELOPMENT_TEAM = N837RX98WS;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
+				INFOPLIST_FILE = iPhonoidUI/Info.plist;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
+				INFOPLIST_KEY_UIRequiresFullScreen = YES;
+				INFOPLIST_KEY_UIStatusBarHidden = NO;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -305,9 +355,11 @@
 				DEVELOPMENT_TEAM = N837RX98WS;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
+				INFOPLIST_FILE = iPhonoidUI/Info.plist;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
+				INFOPLIST_KEY_UIRequiresFullScreen = YES;
+				INFOPLIST_KEY_UIStatusBarHidden = NO;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				LD_RUNPATH_SEARCH_PATHS = (

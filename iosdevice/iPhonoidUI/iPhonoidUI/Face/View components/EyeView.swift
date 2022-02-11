@@ -1,7 +1,8 @@
 //  
 //  EyeView.swift
 //  
-//  Animatable and vectorial Eye view component definition
+//  Animatable and vectorial Eye view component definition. Remember to modify
+//  the view with a .foregroundColor modifier to give the component a color
 //  
 //  Version: 0.1
 //  Written using Swift 5.0
@@ -97,7 +98,6 @@ struct EyeView: View {
                     .frame(height: self.size.height / 4.6)
                     .position(x: self.size.width / 2.6,
                               y: self.size.height / 4.8)
-                
             }
             .frame(width: self.size.width, height: self.size.height)
             Button("Toggle"){
@@ -112,6 +112,7 @@ struct EyeView: View {
 struct EyeView_Previews: PreviewProvider {
     static var previews: some View {
         EyeView(size: CGSize(width: 80, height: 280), closed: .constant(false))
+            .foregroundColor(.brown)
             .frame(width: 100, height: 320)
             .background(Color.white)
     }
