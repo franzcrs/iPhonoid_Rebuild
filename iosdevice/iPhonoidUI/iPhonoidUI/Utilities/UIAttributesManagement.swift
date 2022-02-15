@@ -1,7 +1,7 @@
 //  
 //  UIAttributesManagement.swift
 //  
-//  File for strucutures that provide methods that amanage the User interface general attributes
+//  File for strucutures that provide methods that manage the User interface general attributes
 //  
 //  Version: 0.1
 //  Written using Swift 5.0

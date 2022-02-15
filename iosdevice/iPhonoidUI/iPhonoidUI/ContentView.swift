@@ -12,26 +12,26 @@
 
 import SwiftUI
 
-struct ContentView: View {
-    
-    @Binding var eyeClosed: Bool
-    
-    var body: some View {
-        ZStack {
-            Rectangle()
-                .fill(.white)
-            EyeView(size: CGSize(width: 80, height: 280), closed: $eyeClosed)
-                .foregroundColor(.black)
-        }
-    }
-}
-
-struct ContentView_Previews: PreviewProvider {
-    static var previews: some View {
-        Group {
-            ContentView(eyeClosed: .constant(true))
-                .previewInterfaceOrientation(.landscapeRight)
-                .previewDevice("iPhone 12 Pro")
-        }
-    }
-}
+//struct ContentView: View {
+//    
+//    @Binding var eyeClosed: Bool
+//    
+//    var body: some View {
+//        ZStack {
+//            Rectangle()
+//                .fill(.white)
+//            EyeView(size: CGSize(width: 80, height: 280), closed: $eyeClosed)
+//                .foregroundColor(.black)
+//        }
+//    }
+//}
+//
+//struct ContentView_Previews: PreviewProvider {
+//    static var previews: some View {
+//        Group {
+//            ContentView(eyeClosed: .constant(true))
+//                .previewInterfaceOrientation(.landscapeRight)
+//                .previewDevice("iPhone 12 Pro")
+//        }
+//    }
+//}

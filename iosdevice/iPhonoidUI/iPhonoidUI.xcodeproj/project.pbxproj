@@ -15,7 +15,10 @@
 		B21B77C127A263D900BAAC66 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = B21B77C027A263D900BAAC66 /* Assets.xcassets */; };
 		B21B77C427A263D900BAAC66 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = B21B77C327A263D900BAAC66 /* Preview Assets.xcassets */; };
 		B247B63227AD9787009B07EB /* EyeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B247B63127AD9787009B07EB /* EyeView.swift */; };
+		B248A03127BB90D000CA519F /* EyeModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B248A03027BB90D000CA519F /* EyeModel.swift */; };
 		B263B24C27B2B03C00F1467D /* Errors.swift in Sources */ = {isa = PBXBuildFile; fileRef = B263B24B27B2B03C00F1467D /* Errors.swift */; };
+		B2CD385827BAE8C400C8BE44 /* EyeStates.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2CD385727BAE8C400C8BE44 /* EyeStates.swift */; };
+		B2D625A527B75D0E004F470F /* FaceViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2D625A427B75D0E004F470F /* FaceViewModel.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -28,7 +31,10 @@
 		B21B77C027A263D900BAAC66 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		B21B77C327A263D900BAAC66 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		B247B63127AD9787009B07EB /* EyeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EyeView.swift; sourceTree = "<group>"; };
+		B248A03027BB90D000CA519F /* EyeModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EyeModel.swift; sourceTree = "<group>"; };
 		B263B24B27B2B03C00F1467D /* Errors.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Errors.swift; sourceTree = "<group>"; };
+		B2CD385727BAE8C400C8BE44 /* EyeStates.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EyeStates.swift; sourceTree = "<group>"; };
+		B2D625A427B75D0E004F470F /* FaceViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FaceViewModel.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -46,6 +52,7 @@
 			isa = PBXGroup;
 			children = (
 				B21A9CDD27B21BF500D8A7FD /* FaceView.swift */,
+				B2D625A427B75D0E004F470F /* FaceViewModel.swift */,
 				B21A9CE427B242D500D8A7FD /* View components */,
 			);
 			path = Face;
@@ -88,6 +95,7 @@
 			children = (
 				B21B77BC27A263D800BAAC66 /* iPhonoidUIApp.swift */,
 				B21A9CE127B22F5A00D8A7FD /* AppDelegate.swift */,
+				B248A03327BB90EE00CA519F /* Models */,
 				B263B24E27B2B08B00F1467D /* Enums */,
 				B21A9CE327B22FB800D8A7FD /* Face */,
 				B21A9CE727B252B300D8A7FD /* Utilities */,
@@ -106,10 +114,19 @@
 			path = "Preview Content";
 			sourceTree = "<group>";
 		};
+		B248A03327BB90EE00CA519F /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				B248A03027BB90D000CA519F /* EyeModel.swift */,
+			);
+			path = Models;
+			sourceTree = "<group>";
+		};
 		B263B24E27B2B08B00F1467D /* Enums */ = {
 			isa = PBXGroup;
 			children = (
 				B263B24B27B2B03C00F1467D /* Errors.swift */,
+				B2CD385727BAE8C400C8BE44 /* EyeStates.swift */,
 			);
 			path = Enums;
 			sourceTree = "<group>";
@@ -184,13 +201,16 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				B2CD385827BAE8C400C8BE44 /* EyeStates.swift in Sources */,
 				B21A9CE227B22F5A00D8A7FD /* AppDelegate.swift in Sources */,
+				B2D625A527B75D0E004F470F /* FaceViewModel.swift in Sources */,
 				B21A9CE627B252A100D8A7FD /* UIAttributesManagement.swift in Sources */,
 				B21B77BF27A263D800BAAC66 /* ContentView.swift in Sources */,
 				B263B24C27B2B03C00F1467D /* Errors.swift in Sources */,
 				B21A9CDE27B21BF500D8A7FD /* FaceView.swift in Sources */,
 				B21B77BD27A263D800BAAC66 /* iPhonoidUIApp.swift in Sources */,
 				B247B63227AD9787009B07EB /* EyeView.swift in Sources */,
+				B248A03127BB90D000CA519F /* EyeModel.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
