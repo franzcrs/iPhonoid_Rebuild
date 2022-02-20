@@ -5,7 +5,7 @@
 //  in a landscape orientation with a layout dependent on the device displays' width.
 //  This version now has vectorial components as eyes.
 //  
-//  Version: 0.2
+//  Version: 0.3
 //  Written using Swift 5.0
 //  Created by Franz Chuquirachi (@franzcrs) on 2022/02/08
 //  Copyright © 2022. All rights reserved.
@@ -17,7 +17,6 @@ struct FaceView: View {
     
     private var displayConventional = DisplayConventionalDimensions()
     private var orientationLock = OrientationLock()
-//    @ObservedObject var faceViewData = FaceViewData()
     @EnvironmentObject var faceViewData: FaceViewData
     
     var body: some View {
@@ -25,13 +24,13 @@ struct FaceView: View {
             Rectangle()
                 .fill(.black)
                 .frame(width: self.displayConventional.width() > 375 ? 40 : 20) // 40 pts will cover the notch for devices bigger than iphone 7, 8, SE
-                .overlay(
-                    GeometryReader{proxy in
-                        Color.clear
-                            .overlay(Text("\(Int(proxy.size.width))\r\n" +
-                                          "\(Int(proxy.size.height))")
-                                        .foregroundColor(.white))
-                    })
+//                .overlay(
+//                    GeometryReader{proxy in
+//                        Color.clear
+//                            .overlay(Text("\(Int(proxy.size.width))\r\n" +
+//                                          "\(Int(proxy.size.height))")
+//                                        .foregroundColor(.white))
+//                    })
             ZStack(alignment: .center) {
                 RoundedRectangle(cornerRadius: 25)
                     .padding(6)
@@ -42,69 +41,74 @@ struct FaceView: View {
                         .frame(height: 1)
                     HStack(alignment: .center,
                            spacing: self.displayConventional.width() / 4.6) {
-//                        Image("eye1")
-//                            .renderingMode(.original)
-//                            .resizable()
-//                            .aspectRatio(nil, contentMode: .fit)
-                        EyeView(height: .maximum(180, self.displayConventional.width() / 2) - 18
-//                                ,closed: $faceViewData.rightEyeClosed)
-                        )
-                            .environmentObject(faceViewData.rightEyeState)
-                            .foregroundColor(.black)
+                        EyeView(height: .maximum(180, self.displayConventional.width() / 2) - 18)
+                            .environmentObject(faceViewData.rightEye)
+                            .foregroundColor(Color(hex: 0x2A2F36))
                             .frame(width: (.maximum(180, self.displayConventional.width() / 2) / 1.25).rounded(),
                                    height: .maximum(180, self.displayConventional.width() / 2))
-                            .overlay(
-                                GeometryReader{proxy in
-                                    Color.clear
-                                        .overlay(Text("\(Int(proxy.size.width))\r\n" +
-                                                      "\(Int(proxy.size.height))")
-                                                    .foregroundColor(.white))
-                                })
-                            .gesture(SimultaneousGesture(TapGesture(count: 2), TapGesture(count: 3))
-                                        .onEnded { gestureValue in
-                                            if gestureValue.second != nil {
-                                                faceViewData.rightEyeState.updateState(to: .happy)
-                                            } else if gestureValue.first != nil {
-                                                faceViewData.rightEyeState.updateState(to: .open)
-                                            }
-                                        })
-                            .onTapGesture(perform: {
-                                faceViewData.rightEyeState.updateState(to: .closed)
-                            })
+//                            .overlay(
+//                                GeometryReader{proxy in
+//                                    Color.clear
+//                                        .overlay(Text("\(Int(proxy.size.width))\r\n" +
+//                                                      "\(Int(proxy.size.height))")
+//                                                    .foregroundColor(.white))
+//                                })
+//                            .gesture(SimultaneousGesture(TapGesture(count: 2), TapGesture(count: 3))
+//                                        .onEnded { gestureValue in
+//                                            if gestureValue.second != nil {
+//                                                faceViewData.rightEye.updateState(to: .happy)
+//                                            } else if gestureValue.first != nil {
+//                                                faceViewData.rightEye.updateState(to: .open)
+//                                            }
+//                                        })
+//                            .onTapGesture(perform: {
+//                                faceViewData.rightEye.updateState(to: .closed)
+//                            })
                         EyeView(height: .maximum(180, self.displayConventional.width() / 2) - 18
-//                                ,closed: $faceViewData.leftEyeClosed)
                         )
-                            .environmentObject(faceViewData.leftEyeState)
-                            .foregroundColor(.black)
+                            .environmentObject(faceViewData.leftEye)
+                            .foregroundColor(Color(hex: 0x2A2F36))
                             .frame(width: (.maximum(180, self.displayConventional.width() / 2) / 1.25).rounded(),
                                    height: .maximum(180, self.displayConventional.width() / 2))
-                            .overlay(
-                                GeometryReader{ proxy in
-                                    Color.clear
-                                        .overlay(Text("\(Int(proxy.size.width))\r\n" +
-                                                      "\(Int(proxy.size.height))")
-                                                    .foregroundColor(.white))
-                                })
-                            .gesture(SimultaneousGesture(TapGesture(count: 2), TapGesture(count: 3))
-                                        .onEnded { gestureValue in
-                                            if gestureValue.second != nil {
-                                                faceViewData.leftEyeState.updateState(to: .happy)
-                                            } else if gestureValue.first != nil {
-                                                faceViewData.leftEyeState.updateState(to: .open)
-                                            }
-                                        })
-                            .onTapGesture(perform: {
-                                faceViewData.leftEyeState.updateState(to: .closed)
-                            })
+//                            .overlay(
+//                                GeometryReader{ proxy in
+//                                    Color.clear
+//                                        .overlay(Text("\(Int(proxy.size.width))\r\n" +
+//                                                      "\(Int(proxy.size.height))")
+//                                                    .foregroundColor(.white))
+//                                })
+//                            .gesture(SimultaneousGesture(TapGesture(count: 2), TapGesture(count: 3))
+//                                        .onEnded { gestureValue in
+//                                            if gestureValue.second != nil {
+//                                                faceViewData.leftEye.updateState(to: .happy)
+//                                            } else if gestureValue.first != nil {
+//                                                faceViewData.leftEye.updateState(to: .open)
+//                                            }
+//                                        })
+//                            .onTapGesture(perform: {
+//                                faceViewData.leftEye.updateState(to: .closed)
+//                            })
                     }
                            .frame(height: .maximum(180, self.displayConventional.width() / 2))
-                           .overlay(Text("\(Int(UIScreen.main.fixedCoordinateSpace.bounds.width/2))")
-                                        .foregroundColor(.black))
+                           .overlay(
+                               GeometryReader{ proxy in
+                                   Color.clear
+                                       .overlay(Text("\(Int(proxy.size.width)), " +
+                                                     "\(Int(proxy.size.height))")
+                                                   .foregroundColor(.black))
+                               })
                     Image("mouth1")
                         .renderingMode(.original)
                         .resizable()
                         .aspectRatio(nil, contentMode: .fit)
                         .frame(width: self.displayConventional.width() / 3)
+                        .overlay(
+                            GeometryReader{ proxy in
+                                Color.clear
+                                    .overlay(Text("\(Int(proxy.size.width)), " +
+                                                  "\(Int(proxy.size.height))")
+                                                .foregroundColor(.black))
+                            })
                 }.padding(6)
             }
             Rectangle()
