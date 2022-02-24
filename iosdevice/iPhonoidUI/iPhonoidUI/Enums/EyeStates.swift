@@ -9,8 +9,6 @@
 //  Copyright © 2022. All rights reserved.
 //  
 
-import Foundation
-
 enum EyeState {
     case open
     case closed
@@ -20,7 +18,7 @@ enum EyeState {
 }
 
 extension EyeState {
-    public var ctrlPointsSymmetry: Bool {
+    var ctrlPointsSymmetry: Bool {
         switch self{
             case .open, .closed, .happy:
                 return true

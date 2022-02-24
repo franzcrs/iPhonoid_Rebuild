@@ -15,18 +15,11 @@ import SwiftUI
 struct iPhonoidUIApp: App {
     
     @UIApplicationDelegateAdaptor(AppDelegate.self) var appDelegate
-    
-//    @State private var eyeClosed: Bool = false
-    
+        
     var body: some Scene {
         WindowGroup {
             FaceView()
                 .environmentObject(FaceViewData())
-//            EyeView(size: CGSize(width: 80, height: 280), closed: $eyeClosed)
-//            EyeView(height: 280, closed: $eyeClosed)
-//                .foregroundColor(.black)
-//                .frame(maxWidth: .infinity, maxHeight: .infinity)
-//                .background(.white)
                 .ignoresSafeArea(.container, edges: .all)
                 .statusBar(hidden: true)
         }

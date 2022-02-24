@@ -46,6 +46,7 @@ struct FaceView: View {
                             .foregroundColor(Color(hex: 0x2A2F36))
                             .frame(width: (.maximum(180, self.displayConventional.width() / 2) / 1.25).rounded(),
                                    height: .maximum(180, self.displayConventional.width() / 2))
+//                            .border(Color.blue, width: 2)
 //                            .overlay(
 //                                GeometryReader{proxy in
 //                                    Color.clear
@@ -64,8 +65,7 @@ struct FaceView: View {
 //                            .onTapGesture(perform: {
 //                                faceViewData.rightEye.updateState(to: .closed)
 //                            })
-                        EyeView(height: .maximum(180, self.displayConventional.width() / 2) - 18
-                        )
+                        EyeView(height: .maximum(180, self.displayConventional.width() / 2) - 18)
                             .environmentObject(faceViewData.leftEye)
                             .foregroundColor(Color(hex: 0x2A2F36))
                             .frame(width: (.maximum(180, self.displayConventional.width() / 2) / 1.25).rounded(),
@@ -89,7 +89,6 @@ struct FaceView: View {
 //                                faceViewData.leftEye.updateState(to: .closed)
 //                            })
                     }
-                           .frame(height: .maximum(180, self.displayConventional.width() / 2))
                            .overlay(
                                GeometryReader{ proxy in
                                    Color.clear
@@ -97,18 +96,23 @@ struct FaceView: View {
                                                      "\(Int(proxy.size.height))")
                                                    .foregroundColor(.black))
                                })
-                    Image("mouth1")
-                        .renderingMode(.original)
-                        .resizable()
-                        .aspectRatio(nil, contentMode: .fit)
-                        .frame(width: self.displayConventional.width() / 3)
-                        .overlay(
-                            GeometryReader{ proxy in
-                                Color.clear
-                                    .overlay(Text("\(Int(proxy.size.width)), " +
-                                                  "\(Int(proxy.size.height))")
-                                                .foregroundColor(.black))
-                            })
+//                    ZStack {
+//                        Image("mouth1")
+//                            .renderingMode(.original)
+//                            .resizable()
+//                            .aspectRatio(nil, contentMode: .fit)
+//                            .frame(width: (self.displayConventional.width() / 3).rounded(.down))
+//                            .overlay(
+//                                GeometryReader{ proxy in
+//                                    Color.clear
+//                                        .overlay(Text("\(Int(proxy.size.width)), " +
+//                                                      "\(Int(proxy.size.height))")
+//                                                    .foregroundColor(.black))
+//                            })
+                    MouthView(width: self.displayConventional.width() / 3.1)
+                        .environmentObject(faceViewData.mouth)
+//                        .border(Color.blue, width: 2)
+//                    }
                 }.padding(6)
             }
             Rectangle()
@@ -131,6 +135,6 @@ struct MainView_Previews: PreviewProvider {
         FaceView()
             .environmentObject(FaceViewData())
             .previewInterfaceOrientation(.landscapeRight)
-            .previewDevice("iPhone 8 Plus")
+            .previewDevice("iPhone 13 Pro Max")
     }
 }

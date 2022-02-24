@@ -17,11 +17,11 @@ import SwiftUI
 
 struct MainShape: Shape{
     
-    @EnvironmentObject var Eye: EyeModel
+    @EnvironmentObject var eye: EyeModel
     
     // Coordinates modifiers
     var halfWidthEtensionFactor: CGFloat {
-        switch Eye.state{
+        switch eye.state{
             case .closed:
                 return 0.75
             case .happy:
@@ -31,7 +31,7 @@ struct MainShape: Shape{
         }
     }
     var halfHeightExtensionFactor: CGFloat {
-        switch Eye.state{
+        switch eye.state{
             case .closed:
                 return 0.1
             case .happy:
@@ -41,7 +41,7 @@ struct MainShape: Shape{
         }
     }
     var topYInwardsOffset: CGFloat {
-        switch Eye.state{
+        switch eye.state{
             case .open:
                 return 0
             case .closed:
@@ -49,13 +49,13 @@ struct MainShape: Shape{
             case .happy:
                 return 0.6
             case .angry:
-                return 0.3
+                return 0.33 //0.3
             case .sad:
                 return 0.32
         }
     }
     var bottomYInwardsOffset: CGFloat {
-        switch Eye.state{
+        switch eye.state{
             case .closed:
                 return 0.6
             case .happy:
@@ -65,17 +65,17 @@ struct MainShape: Shape{
         }
     }
     var upperSlope: CGFloat{
-        switch Eye.state {
+        switch eye.state {
             case .angry:
-                return (Eye.side == .left ? 1: (-1)) * 0.6
+                return (eye.side == .left ? 1: (-1)) * 0.68 //0.6
             case .sad:
-                return (Eye.side == .left ? 1: (-1)) * -0.6
+                return (eye.side == .left ? 1: (-1)) * -0.6
             default:
                 return 0
         }
     }
     var topXExtensionFactor: CGFloat{
-        switch Eye.state {
+        switch eye.state {
             case .angry:
                 return 0.6
             case .sad:
@@ -100,24 +100,24 @@ struct MainShape: Shape{
         // Points definition
         let startPoint = CGPoint(x: rect.minX, y: rect.midY)
         let ctrlPoint_1 = CGPoint(x: rect.minX,
-                                  y: Eye.state.ctrlPointsSymmetry
+                                  y: eye.state.ctrlPointsSymmetry
                                   ? rect.midY - vertTangentCtrlPoint_RelY
                                   : upperPoint_AbsY + vertTangentUpperCtrlPoint_DeltaY)
-        let ctrlPoint_2 = CGPoint(x: Eye.state.ctrlPointsSymmetry
+        let ctrlPoint_2 = CGPoint(x: eye.state.ctrlPointsSymmetry
                                   ? rect.midX - horizTangentCtrlPoint_RelX
                                   : rect.midX - horizTangentUpperCtrlPoint_AsymX,
-                                  y: Eye.state.ctrlPointsSymmetry
+                                  y: eye.state.ctrlPointsSymmetry
                                   ? upperPoint_AbsY
                                   : upperPoint_AbsY + horizTangentUpperCtrlPoint_DeltaY)
         let topPoint = CGPoint(x: rect.midX, y: upperPoint_AbsY)
-        let ctrlPoint_3 = CGPoint(x: Eye.state.ctrlPointsSymmetry
+        let ctrlPoint_3 = CGPoint(x: eye.state.ctrlPointsSymmetry
                                   ? rect.midX + horizTangentCtrlPoint_RelX
                                   : rect.midX + horizTangentUpperCtrlPoint_AsymX,
-                                  y: Eye.state.ctrlPointsSymmetry
+                                  y: eye.state.ctrlPointsSymmetry
                                   ? upperPoint_AbsY
                                   : upperPoint_AbsY - horizTangentUpperCtrlPoint_DeltaY)
         let ctrlPoint_4 = CGPoint(x: rect.maxX,
-                                  y: Eye.state.ctrlPointsSymmetry
+                                  y: eye.state.ctrlPointsSymmetry
                                   ? rect.midY - vertTangentCtrlPoint_RelY
                                   : upperPoint_AbsY - vertTangentUpperCtrlPoint_DeltaY)
         let rightPoint = CGPoint(x: rect.maxX, y: rect.midY)
@@ -172,6 +172,6 @@ struct EyeView_Previews: PreviewProvider {
             .environmentObject(EyeModel(side: .right, state: .init(initialValue: .sad)))
             .foregroundColor(.brown)
             .frame(width: 100, height: 320)
-            .background(Color.white)
+            .background(.white)
     }
 }

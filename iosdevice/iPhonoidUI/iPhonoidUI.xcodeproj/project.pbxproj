@@ -18,6 +18,9 @@
 		B248A03127BB90D000CA519F /* EyeModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B248A03027BB90D000CA519F /* EyeModel.swift */; };
 		B25DEB5D27C16161005D9083 /* Sides.swift in Sources */ = {isa = PBXBuildFile; fileRef = B25DEB5C27C16161005D9083 /* Sides.swift */; };
 		B25DEB5F27C1D817005D9083 /* ColorExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = B25DEB5E27C1D817005D9083 /* ColorExtension.swift */; };
+		B25DEB6127C1F57A005D9083 /* MouthView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B25DEB6027C1F57A005D9083 /* MouthView.swift */; };
+		B25DEB6327C1FDB1005D9083 /* MouthStates.swift in Sources */ = {isa = PBXBuildFile; fileRef = B25DEB6227C1FDB1005D9083 /* MouthStates.swift */; };
+		B25DEB6527C2000F005D9083 /* MouthModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B25DEB6427C2000F005D9083 /* MouthModel.swift */; };
 		B263B24C27B2B03C00F1467D /* Errors.swift in Sources */ = {isa = PBXBuildFile; fileRef = B263B24B27B2B03C00F1467D /* Errors.swift */; };
 		B2CD385827BAE8C400C8BE44 /* EyeStates.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2CD385727BAE8C400C8BE44 /* EyeStates.swift */; };
 		B2D625A527B75D0E004F470F /* FaceViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2D625A427B75D0E004F470F /* FaceViewModel.swift */; };
@@ -36,6 +39,9 @@
 		B248A03027BB90D000CA519F /* EyeModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EyeModel.swift; sourceTree = "<group>"; };
 		B25DEB5C27C16161005D9083 /* Sides.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Sides.swift; sourceTree = "<group>"; };
 		B25DEB5E27C1D817005D9083 /* ColorExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorExtension.swift; sourceTree = "<group>"; };
+		B25DEB6027C1F57A005D9083 /* MouthView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MouthView.swift; sourceTree = "<group>"; };
+		B25DEB6227C1FDB1005D9083 /* MouthStates.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MouthStates.swift; sourceTree = "<group>"; };
+		B25DEB6427C2000F005D9083 /* MouthModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MouthModel.swift; sourceTree = "<group>"; };
 		B263B24B27B2B03C00F1467D /* Errors.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Errors.swift; sourceTree = "<group>"; };
 		B2CD385727BAE8C400C8BE44 /* EyeStates.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EyeStates.swift; sourceTree = "<group>"; };
 		B2D625A427B75D0E004F470F /* FaceViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FaceViewModel.swift; sourceTree = "<group>"; };
@@ -66,6 +72,7 @@
 			isa = PBXGroup;
 			children = (
 				B247B63127AD9787009B07EB /* EyeView.swift */,
+				B25DEB6027C1F57A005D9083 /* MouthView.swift */,
 			);
 			path = "View components";
 			sourceTree = "<group>";
@@ -123,6 +130,7 @@
 			isa = PBXGroup;
 			children = (
 				B248A03027BB90D000CA519F /* EyeModel.swift */,
+				B25DEB6427C2000F005D9083 /* MouthModel.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -133,6 +141,7 @@
 				B263B24B27B2B03C00F1467D /* Errors.swift */,
 				B2CD385727BAE8C400C8BE44 /* EyeStates.swift */,
 				B25DEB5C27C16161005D9083 /* Sides.swift */,
+				B25DEB6227C1FDB1005D9083 /* MouthStates.swift */,
 			);
 			path = Enums;
 			sourceTree = "<group>";
@@ -209,7 +218,10 @@
 			files = (
 				B2CD385827BAE8C400C8BE44 /* EyeStates.swift in Sources */,
 				B25DEB5D27C16161005D9083 /* Sides.swift in Sources */,
+				B25DEB6527C2000F005D9083 /* MouthModel.swift in Sources */,
 				B21A9CE227B22F5A00D8A7FD /* AppDelegate.swift in Sources */,
+				B25DEB6327C1FDB1005D9083 /* MouthStates.swift in Sources */,
+				B25DEB6127C1F57A005D9083 /* MouthView.swift in Sources */,
 				B25DEB5F27C1D817005D9083 /* ColorExtension.swift in Sources */,
 				B2D625A527B75D0E004F470F /* FaceViewModel.swift in Sources */,
 				B21A9CE627B252A100D8A7FD /* UIAttributesManagement.swift in Sources */,
@@ -352,7 +364,6 @@
 				DEVELOPMENT_TEAM = N837RX98WS;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_FILE = iPhonoidUI/Info.plist;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
 				INFOPLIST_KEY_UIRequiresFullScreen = YES;

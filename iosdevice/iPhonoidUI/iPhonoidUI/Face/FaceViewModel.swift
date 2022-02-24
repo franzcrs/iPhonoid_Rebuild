@@ -14,9 +14,8 @@ import SwiftUI
 
 final class FaceViewData: ObservableObject{
     
-    @Published var rightEye = EyeModel(side: .right, state: .init(initialValue: .angry))
-    @Published var leftEye = EyeModel(side: .left, state: .init(initialValue: .angry))
+    @Published var rightEye = EyeModel(side: .right, state: .init(initialValue: .open))
+    @Published var leftEye = EyeModel(side: .left, state: .init(initialValue: .open))
+    @Published var mouth = MouthModel(state: .init(initialValue: .happy))
     
-//    @Published var rightEyeClosed: Bool = false
-//    @Published var leftEyeClosed: Bool = false
 }
