@@ -19,7 +19,7 @@ struct iPhonoidUIApp: App {
     var body: some Scene {
         WindowGroup {
             FaceView()
-                .environmentObject(FaceViewData())
+                .environmentObject(FaceViewModel())
                 .ignoresSafeArea(.container, edges: .all)
                 .statusBar(hidden: true)
         }

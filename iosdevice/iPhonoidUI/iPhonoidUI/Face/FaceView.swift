@@ -3,9 +3,10 @@
 //  
 //  View component for the iPhonoid Face screen. It arranges the facial elements
 //  in a landscape orientation with a layout dependent on the device displays' width.
-//  This version now has vectorial components as eyes.
+//  This version now has vectorial components as eyes and mouth, and one, two and
+//  three tap gestures are handled to change the facial expression
 //  
-//  Version: 0.3
+//  Version: 0.4
 //  Written using Swift 5.0
 //  Created by Franz Chuquirachi (@franzcrs) on 2022/02/08
 //  Copyright © 2022. All rights reserved.
@@ -17,7 +18,7 @@ struct FaceView: View {
     
     private var displayConventional = DisplayConventionalDimensions()
     private var orientationLock = OrientationLock()
-    @EnvironmentObject var faceViewData: FaceViewData
+    @EnvironmentObject var faceViewData: FaceViewModel
     
     var body: some View {
         HStack (alignment: .center, spacing: 0) {
@@ -89,13 +90,13 @@ struct FaceView: View {
 //                                faceViewData.leftEye.updateState(to: .closed)
 //                            })
                     }
-                           .overlay(
-                               GeometryReader{ proxy in
-                                   Color.clear
-                                       .overlay(Text("\(Int(proxy.size.width)), " +
-                                                     "\(Int(proxy.size.height))")
-                                                   .foregroundColor(.black))
-                               })
+//                           .overlay(
+//                               GeometryReader{ proxy in
+//                                   Color.clear
+//                                       .overlay(Text("\(Int(proxy.size.width)), " +
+//                                                     "\(Int(proxy.size.height))")
+//                                                   .foregroundColor(.black))
+//                               })
 //                    ZStack {
 //                        Image("mouth1")
 //                            .renderingMode(.original)
@@ -115,6 +116,17 @@ struct FaceView: View {
 //                    }
                 }.padding(6)
             }
+            .gesture(SimultaneousGesture(TapGesture(count: 2), TapGesture(count: 3))
+                        .onEnded { gestureValue in
+                if gestureValue.second != nil {
+                    faceViewData.sleep()
+                } else if gestureValue.first != nil {
+                    faceViewData.sad()
+                }
+            })
+            .onTapGesture(perform: {
+                faceViewData.happy()
+            })
             Rectangle()
                 .fill(.black)
                 .frame(width: self.displayConventional.width() > 375 ? 40 : 20)
@@ -133,7 +145,7 @@ struct FaceView: View {
 struct MainView_Previews: PreviewProvider {
     static var previews: some View {
         FaceView()
-            .environmentObject(FaceViewData())
+            .environmentObject(FaceViewModel())
             .previewInterfaceOrientation(.landscapeRight)
             .previewDevice("iPhone 13 Pro Max")
     }
