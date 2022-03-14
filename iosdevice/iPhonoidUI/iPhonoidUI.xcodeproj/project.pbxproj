@@ -22,8 +22,13 @@
 		B25DEB6327C1FDB1005D9083 /* MouthStates.swift in Sources */ = {isa = PBXBuildFile; fileRef = B25DEB6227C1FDB1005D9083 /* MouthStates.swift */; };
 		B25DEB6527C2000F005D9083 /* MouthModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B25DEB6427C2000F005D9083 /* MouthModel.swift */; };
 		B263B24C27B2B03C00F1467D /* Errors.swift in Sources */ = {isa = PBXBuildFile; fileRef = B263B24B27B2B03C00F1467D /* Errors.swift */; };
+		B266B9AB27D45047001E49EE /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B266B9AA27D45047001E49EE /* SettingsView.swift */; };
+		B266B9AD27D4C0EB001E49EE /* LoadingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B266B9AC27D4C0EB001E49EE /* LoadingView.swift */; };
+		B266B9AF27D4C232001E49EE /* AppStateModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B266B9AE27D4C232001E49EE /* AppStateModel.swift */; };
+		B266B9B127D4CD64001E49EE /* PeripheralsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B266B9B027D4CD64001E49EE /* PeripheralsView.swift */; };
 		B2CD385827BAE8C400C8BE44 /* EyeStates.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2CD385727BAE8C400C8BE44 /* EyeStates.swift */; };
 		B2D625A527B75D0E004F470F /* FaceViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2D625A427B75D0E004F470F /* FaceViewModel.swift */; };
+		B2ECB09827DFDA67004A0C69 /* CustomViewModifiers.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2ECB09727DFDA67004A0C69 /* CustomViewModifiers.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -43,8 +48,13 @@
 		B25DEB6227C1FDB1005D9083 /* MouthStates.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MouthStates.swift; sourceTree = "<group>"; };
 		B25DEB6427C2000F005D9083 /* MouthModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MouthModel.swift; sourceTree = "<group>"; };
 		B263B24B27B2B03C00F1467D /* Errors.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Errors.swift; sourceTree = "<group>"; };
+		B266B9AA27D45047001E49EE /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
+		B266B9AC27D4C0EB001E49EE /* LoadingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoadingView.swift; sourceTree = "<group>"; };
+		B266B9AE27D4C232001E49EE /* AppStateModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppStateModel.swift; sourceTree = "<group>"; };
+		B266B9B027D4CD64001E49EE /* PeripheralsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PeripheralsView.swift; sourceTree = "<group>"; };
 		B2CD385727BAE8C400C8BE44 /* EyeStates.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EyeStates.swift; sourceTree = "<group>"; };
 		B2D625A427B75D0E004F470F /* FaceViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FaceViewModel.swift; sourceTree = "<group>"; };
+		B2ECB09727DFDA67004A0C69 /* CustomViewModifiers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomViewModifiers.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -106,11 +116,15 @@
 			children = (
 				B21B77BC27A263D800BAAC66 /* iPhonoidUIApp.swift */,
 				B21A9CE127B22F5A00D8A7FD /* AppDelegate.swift */,
+				B266B9AA27D45047001E49EE /* SettingsView.swift */,
+				B266B9AC27D4C0EB001E49EE /* LoadingView.swift */,
+				B266B9B027D4CD64001E49EE /* PeripheralsView.swift */,
 				B248A03327BB90EE00CA519F /* Models */,
 				B263B24E27B2B08B00F1467D /* Enums */,
 				B21A9CE327B22FB800D8A7FD /* Face */,
 				B21A9CE727B252B300D8A7FD /* Utilities */,
 				B25DEB5E27C1D817005D9083 /* ColorExtension.swift */,
+				B2ECB09727DFDA67004A0C69 /* CustomViewModifiers.swift */,
 				B21B77BE27A263D800BAAC66 /* ContentView.swift */,
 				B21B77C027A263D900BAAC66 /* Assets.xcassets */,
 				B21B77C227A263D900BAAC66 /* Preview Content */,
@@ -131,6 +145,7 @@
 			children = (
 				B248A03027BB90D000CA519F /* EyeModel.swift */,
 				B25DEB6427C2000F005D9083 /* MouthModel.swift */,
+				B266B9AE27D4C232001E49EE /* AppStateModel.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -216,21 +231,26 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				B266B9B127D4CD64001E49EE /* PeripheralsView.swift in Sources */,
 				B2CD385827BAE8C400C8BE44 /* EyeStates.swift in Sources */,
 				B25DEB5D27C16161005D9083 /* Sides.swift in Sources */,
 				B25DEB6527C2000F005D9083 /* MouthModel.swift in Sources */,
 				B21A9CE227B22F5A00D8A7FD /* AppDelegate.swift in Sources */,
+				B266B9AD27D4C0EB001E49EE /* LoadingView.swift in Sources */,
 				B25DEB6327C1FDB1005D9083 /* MouthStates.swift in Sources */,
 				B25DEB6127C1F57A005D9083 /* MouthView.swift in Sources */,
 				B25DEB5F27C1D817005D9083 /* ColorExtension.swift in Sources */,
 				B2D625A527B75D0E004F470F /* FaceViewModel.swift in Sources */,
 				B21A9CE627B252A100D8A7FD /* UIAttributesManagement.swift in Sources */,
+				B266B9AB27D45047001E49EE /* SettingsView.swift in Sources */,
 				B21B77BF27A263D800BAAC66 /* ContentView.swift in Sources */,
 				B263B24C27B2B03C00F1467D /* Errors.swift in Sources */,
 				B21A9CDE27B21BF500D8A7FD /* FaceView.swift in Sources */,
+				B2ECB09827DFDA67004A0C69 /* CustomViewModifiers.swift in Sources */,
 				B21B77BD27A263D800BAAC66 /* iPhonoidUIApp.swift in Sources */,
 				B247B63227AD9787009B07EB /* EyeView.swift in Sources */,
 				B248A03127BB90D000CA519F /* EyeModel.swift in Sources */,
+				B266B9AF27D4C232001E49EE /* AppStateModel.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
