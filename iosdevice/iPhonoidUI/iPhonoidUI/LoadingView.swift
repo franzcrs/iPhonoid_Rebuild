@@ -43,27 +43,26 @@ extension View{
             // thus, the last window in the array is on top of all other app windows.
             // Refer to: https://developer.apple.com/documentation/uikit/uiapplication/1623104-windows
 //            var topViewController = windowScene.windows.last?.rootViewController
-            var topViewController:UIViewController? = windowScene.keyWindow?.rootViewController
-            while let newTopViewController = topViewController!.presentedViewController{
+            var topViewController:UIViewController = (windowScene.keyWindow?.rootViewController)!
+            while let newTopViewController = topViewController.presentedViewController{
                 topViewController = newTopViewController
             }
             let viewControllerFromView = UIHostingController(rootView: self)
-            topViewController!.modalPresentationCapturesStatusBarAppearance = true
-//            print(viewControllerFromView.prefersStatusBarHidden)
-            viewControllerFromView.providesPresentationContextTransitionStyle = true
-            viewControllerFromView.definesPresentationContext = true
+            topViewController.modalPresentationCapturesStatusBarAppearance = true
+            topViewController.definesPresentationContext = true
+            topViewController.providesPresentationContextTransitionStyle = true
             viewControllerFromView.modalPresentationStyle = modalPresentationStyle
             viewControllerFromView.modalTransitionStyle = modalTransitionStyle
-            // TODO: Specify constraints
+            // Specifying constraints
+//            topViewController!.view.addSubview(viewControllerFromView.view)
 //            viewControllerFromView.view.translatesAutoresizingMaskIntoConstraints = false
-//            let constraints = [
-//                viewControllerFromView.view.topAnchor.constraint(equalTo: topViewController!.view.topAnchor),
-//                viewControllerFromView.view.leftAnchor.constraint(equalTo: topViewController!.view.leftAnchor),
-//                topViewController!.view.bottomAnchor.constraint(equalTo: viewControllerFromView.view.bottomAnchor),
-//                topViewController!.view.rightAnchor.constraint(equalTo: viewControllerFromView.view.rightAnchor)
-//            ]
+//            var constraints = [NSLayoutConstraint]()
+//            constraints.append(viewControllerFromView.view.leadingAnchor.constraint(equalTo: topViewController!.view.leadingAnchor))
+//            constraints.append(viewControllerFromView.view.trailingAnchor.constraint(equalTo: topViewController!.view.trailingAnchor))
+//            constraints.append(viewControllerFromView.view.bottomAnchor.constraint(equalTo: topViewController!.view.bottomAnchor))
+//            constraints.append(viewControllerFromView.view.topAnchor.constraint(equalTo: topViewController!.view.topAnchor))
 //            NSLayoutConstraint.activate(constraints)
-            topViewController!.present(viewControllerFromView, animated: true, completion: nil)
+            topViewController.present(viewControllerFromView, animated: true, completion: nil)
             DispatchQueue.main.asyncAfter(deadline: .now() + 0.1){
                 isPresented.wrappedValue = false
             }
@@ -123,8 +122,10 @@ struct LoadingView: View {
                 })
             SettingsView()
                 .interactiveDismissDisabled()
-                .modifier(ForNewRootView(AppStateInstance: appState))
+                .environmentObject(appState)
+//                .modifier(ForNewRootView(AppStateInstance: appState))
                 .presentModallyAs(.formSheet, withTransition: .coverVertical, when: $showSettings)
+            // TODO: modify function to accept behaviour of modifier for popover case
         }
     }
 }

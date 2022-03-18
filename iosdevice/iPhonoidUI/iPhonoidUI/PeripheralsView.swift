@@ -13,7 +13,7 @@ import SwiftUI
 
 struct PeripheralsView: View {
     
-    @Environment(\.presentationMode) var presentationMode
+//    @Environment(\.presentationMode) var presentationMode
     @EnvironmentObject var appState: AppStateModel
     
     var body: some View {
@@ -37,6 +37,7 @@ struct PeripheralsView: View {
             .navigationTitle(Text("Peripherals"))
             .navigationBarTitleDisplayMode(.inline)
         }
+        .navigationViewStyle(.stack) // Redundant statement that fixes constraints warnings in debug console
     }
 }
 
