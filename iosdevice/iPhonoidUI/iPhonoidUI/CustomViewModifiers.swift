@@ -11,7 +11,7 @@
 
 import SwiftUI
 
-struct ForNewRootView: ViewModifier {
+struct ForNewFullScreenRootView: ViewModifier {
     
     var AppStateInstance: AppStateModel
     

@@ -28,7 +28,7 @@ struct iPhonoidUIApp: App {
                     LoadingView()
                 }
             }
-            .modifier(ForNewRootView(AppStateInstance: appState))
+            .modifier(ForNewFullScreenRootView(AppStateInstance: appState))
         }
     }
 }

@@ -38,6 +38,7 @@ struct SettingsView: View {
                 .navigationBarTitleDisplayMode(.inline)
         }
         .navigationViewStyle(.stack) // Redundant statement that fixes constraints warnings in debug console
+//        .navigationViewStyle(.automatic)
         .onChange(of: appState.btConnectionSuccessful) { _ in
             presentationMode.wrappedValue.dismiss()
         }
