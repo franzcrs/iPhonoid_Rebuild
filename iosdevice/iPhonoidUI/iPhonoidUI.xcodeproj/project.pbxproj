@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		B20E9ED2280561B100C327A3 /* ViewExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = B20E9ED1280561B100C327A3 /* ViewExtension.swift */; };
 		B21A9CDE27B21BF500D8A7FD /* FaceView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B21A9CDD27B21BF500D8A7FD /* FaceView.swift */; };
 		B21A9CE227B22F5A00D8A7FD /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = B21A9CE127B22F5A00D8A7FD /* AppDelegate.swift */; };
 		B21A9CE627B252A100D8A7FD /* UIAttributesManagement.swift in Sources */ = {isa = PBXBuildFile; fileRef = B21A9CE527B252A100D8A7FD /* UIAttributesManagement.swift */; };
@@ -32,6 +33,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		B20E9ED1280561B100C327A3 /* ViewExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewExtension.swift; sourceTree = "<group>"; };
 		B21A9CDD27B21BF500D8A7FD /* FaceView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FaceView.swift; sourceTree = "<group>"; };
 		B21A9CE127B22F5A00D8A7FD /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		B21A9CE527B252A100D8A7FD /* UIAttributesManagement.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIAttributesManagement.swift; sourceTree = "<group>"; };
@@ -126,6 +128,7 @@
 				B25DEB5E27C1D817005D9083 /* ColorExtension.swift */,
 				B2ECB09727DFDA67004A0C69 /* CustomViewModifiers.swift */,
 				B21B77BE27A263D800BAAC66 /* ContentView.swift */,
+				B20E9ED1280561B100C327A3 /* ViewExtension.swift */,
 				B21B77C027A263D900BAAC66 /* Assets.xcassets */,
 				B21B77C227A263D900BAAC66 /* Preview Content */,
 			);
@@ -234,6 +237,7 @@
 				B266B9B127D4CD64001E49EE /* PeripheralsView.swift in Sources */,
 				B2CD385827BAE8C400C8BE44 /* EyeStates.swift in Sources */,
 				B25DEB5D27C16161005D9083 /* Sides.swift in Sources */,
+				B20E9ED2280561B100C327A3 /* ViewExtension.swift in Sources */,
 				B25DEB6527C2000F005D9083 /* MouthModel.swift in Sources */,
 				B21A9CE227B22F5A00D8A7FD /* AppDelegate.swift in Sources */,
 				B266B9AD27D4C0EB001E49EE /* LoadingView.swift in Sources */,
