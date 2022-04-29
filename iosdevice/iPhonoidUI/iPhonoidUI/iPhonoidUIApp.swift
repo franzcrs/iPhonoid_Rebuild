@@ -15,18 +15,18 @@ import SwiftUI
 struct iPhonoidUIApp: App {
     
     @UIApplicationDelegateAdaptor(AppDelegate.self) var appDelegate
-    @ObservedObject var appState = AppStateModel(btConnectionSuccess: .init(initialValue: false))
+    @ObservedObject var appState = AppStateModel(bodyConnectionInitialState: .init(initialValue: true))
         
     var body: some Scene {
         WindowGroup {
             Group{
-                if appState.btConnectionSuccessful {
-                    FaceView()
-                        .environmentObject(FaceViewModel())
-                        
-                } else {
+//                if appState.bodyConnected {
+//                    FaceView()
+//                        .environmentObject(FaceViewModel())
+//
+//                } else {
                     LoadingView()
-                }
+//                }
             }
             .modifier(ForNewFullScreenRootView(AppStateInstance: appState))
         }

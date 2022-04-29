@@ -96,7 +96,6 @@ class ModalPresentationHostingController<Content>: UIHostingController<Content>,
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        print(presentingViewController!)
         presentingViewController!.view.alpha = 0.4
     }
     
