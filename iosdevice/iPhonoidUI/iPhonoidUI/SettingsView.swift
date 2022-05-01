@@ -3,7 +3,7 @@
 //  
 //  *Describe purpose*
 //  
-//  Version: 0.2
+//  Version: 0.3
 //  Written using Swift 5.0
 //  Created by Franz Chuquirachi (@franzcrs) on 2022/03/06
 //  Copyright © 2022. All rights reserved.
@@ -14,7 +14,8 @@ import SwiftUI
 struct SettingsView: View {
     
     @Environment(\.presentationMode) var presentationMode
-    @EnvironmentObject var appState: AppStateModel
+//    @EnvironmentObject var appState: AppStateModel
+    @EnvironmentObject var bluetooth: BluetoothModel
     
     var body: some View {
         NavigationView {
@@ -33,7 +34,7 @@ struct SettingsView: View {
                     }
                     Section("Bluetooth Status"){
                         NavigationLink(destination: PeripheralsView()){
-                            if (appState.bodyConnected){
+                            if (bluetooth.connectionSuccess){
                                 HStack{
                                     Text("Connected to")
                                     Spacer()
@@ -47,7 +48,7 @@ struct SettingsView: View {
                                 
                             }
                         }
-                        if (appState.bodyConnected){
+                        if (bluetooth.connectionSuccess){
                             HStack{
                                 Text("RSSI")
                                 Spacer()
@@ -66,8 +67,10 @@ struct SettingsView: View {
         }
         .navigationViewStyle(.stack) // Redundant statement that fixes constraints warnings in debug console
 //        .navigationViewStyle(.automatic)
-        .onChange(of: appState.bodyConnected) { _ in
-            presentationMode.wrappedValue.dismiss()
+        .onChange(of: bluetooth.connectionSuccess) { _ in
+            if bluetooth.connectionSuccess {
+                presentationMode.wrappedValue.dismiss()
+            }
         }
     }
 }
@@ -75,8 +78,9 @@ struct SettingsView: View {
 struct SettingsView_Previews: PreviewProvider {
     static var previews: some View {
         SettingsView()
-            .environmentObject(AppStateModel(
-                bodyConnectionInitialState: .init(initialValue: false))
+            .environmentObject(
+//                AppStateModel(bodyConnectionInitialState: .init(initialValue: false))
+                BluetoothModel(connectionSuccessFlag: .init(initialValue: false))
             )
             .statusBar(hidden: true)
             .previewLayout(.sizeThatFits)

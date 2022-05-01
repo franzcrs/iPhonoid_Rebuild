@@ -26,12 +26,12 @@ class BluetoothConnectivityModel {
             characteristicUUIDs: [CBUUID(string:"0000FFE1-0000-1000-8000-00805F9B34FB")])
     ]
     
-    
     private var centralManager: CBCentralManager!
     private var managerDelegate: CBCentralManagerDelegate!
     private var connectionSuccess: Binding<Bool>?
     public var discoveredPeripherals: [String : BluetoothPeripheralModel] = [:]
     private var scanTermination: Binding<Bool>?
+    let bluetoothQueue = DispatchQueue(label: "CBManager")
 //    @Published public var connectedPeripheral: BluetoothPeripheralModel?
     
     init() {
@@ -41,14 +41,14 @@ class BluetoothConnectivityModel {
         self.init()
         connectionSuccess = connectionSuccessFlag
         scanTermination = scanTerminationFlag
-        switch constrainToCompatiblePeripherals {
-            case true:
-                managerDelegate = ManagerDelegateModel(connectionSucessFlag: connectionSuccess!, scanTerminationFlag: scanTermination!, storeDiscoveredPeripheralClosure: { (peripheral: CBPeripheral, rssi: NSNumber) -> () in self.discoveredPeripherals[peripheral.identifier.uuidString] = BluetoothPeripheralModel(cbPeripheral: peripheral, rssi: rssi) }, purgeDiscoveredPeripheralsClosure: { self.discoveredPeripherals = [:] }, compatiblePeripheralsList: Self.compatiblePeripherals)
-                centralManager = CBCentralManager(delegate: managerDelegate, queue: nil)
-            default:
-                managerDelegate = ManagerDelegateModel(connectionSucessFlag: connectionSuccess!, scanTerminationFlag: scanTermination!, storeDiscoveredPeripheralClosure: { (peripheral: CBPeripheral, rssi: NSNumber) -> () in  self.discoveredPeripherals[peripheral.identifier.uuidString] = BluetoothPeripheralModel(cbPeripheral: peripheral, rssi: rssi) }, purgeDiscoveredPeripheralsClosure: { self.discoveredPeripherals = [:] }, compatiblePeripheralsList: nil)
-                centralManager = CBCentralManager(delegate: managerDelegate, queue: nil)
-        }
+//        switch constrainToCompatiblePeripherals {
+//            case true:
+//                managerDelegate = ManagerDelegateModel(queue: bluetoothQueue, connectionSucessFlag: connectionSuccess!, scanTerminationFlag: scanTermination!, storeDiscoveredPeripheralClosure: { (peripheral: CBPeripheral, rssi: NSNumber) -> () in self.discoveredPeripherals[peripheral.identifier.uuidString] = BluetoothPeripheralModel(cbPeripheral: peripheral, rssi: rssi) }, purgeDiscoveredPeripheralsClosure: { self.discoveredPeripherals = [:] }, compatiblePeripheralsList: Self.compatiblePeripherals)
+//                centralManager = CBCentralManager(delegate: managerDelegate, queue: bluetoothQueue) // TODO: crear otro queue y usarlo en esta funcion
+//            default:
+//                managerDelegate = ManagerDelegateModel(queue: bluetoothQueue, connectionSucessFlag: connectionSuccess!, scanTerminationFlag: scanTermination!, storeDiscoveredPeripheralClosure: { (peripheral: CBPeripheral, rssi: NSNumber) -> () in  self.discoveredPeripherals[peripheral.identifier.uuidString] = BluetoothPeripheralModel(cbPeripheral: peripheral, rssi: rssi) }, purgeDiscoveredPeripheralsClosure: { self.discoveredPeripherals = [:] }, compatiblePeripheralsList: nil)
+//                centralManager = CBCentralManager(delegate: managerDelegate, queue: bluetoothQueue)
+//        } // TODO: solo crear un if dentro de la referencia de la variable
     }
     
     public func connectTo(_ peripheral:BluetoothPeripheralModel){

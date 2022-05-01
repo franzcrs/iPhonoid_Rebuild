@@ -3,7 +3,7 @@
 //  
 //  *Describe purpose*
 //  
-//  Version: 0.1
+//  Version: 0.2
 //  Written using Swift 5.0
 //  Created by Franz Chuquirachi (@franzcrs) on 2022/04/23
 //  Copyright © 2022. All rights reserved.
@@ -14,27 +14,35 @@ import CoreBluetooth
 
 public class ManagerDelegateModel: NSObject, CBCentralManagerDelegate {
     
-    
-    
-    private var connectionSuccess: Binding<Bool>
-    private var scanTermination: Binding<Bool>
-    private let storePeripheral:(CBPeripheral, NSNumber) -> ()
-    private let purgePeripherals: () -> ()
+    @Binding private var connectionSuccess: Bool
+    @Binding private var scanTermination: Bool
+    @Binding private var discoveredPeripherals: [String:PeripheralModel]
+    @Binding private var connectedPeripheral: PeripheralModel
     private var compatiblePeripherals: [String: PeripheralUUIDsModel] = [:]
-//    var discoveredPeripherals: [String : BluetoothPeripheralModel]
-//    @Published private var connectedPeripheral: BluetoothPeripheralModel?
+    
+//    private let storePeripheral:(CBPeripheral, NSNumber) -> ()
+//    private let purgePeripherals: () -> ()
+//    var bluetoothqueue: DispatchQueue
     
 //    init(connectionSucessFlag: Binding<Bool>, discoveredPeripheralsStack: Published<[String : BluetoothPeripheralModel]>, connectedPeripheralRef: Published<BluetoothPeripheralModel?>, compatiblePeripheralsList: [String: PeripheralUUIDsModel]?) {
-    init(connectionSucessFlag: Binding<Bool>, scanTerminationFlag: Binding<Bool>, storeDiscoveredPeripheralClosure storeClosure: @escaping (CBPeripheral, NSNumber) -> (), purgeDiscoveredPeripheralsClosure purgeClosure: @escaping () -> (), compatiblePeripheralsList: [String: PeripheralUUIDsModel]?) {
-        connectionSuccess = connectionSucessFlag
-        scanTermination = scanTerminationFlag
-        storePeripheral = storeClosure
-        purgePeripherals = purgeClosure
-//        discoveredPeripherals = discoveredPeripheralsStack
+    init(connectionSuccessFlag: Binding<Bool>,
+         scanTerminationFlag: Binding<Bool>,
+         discoveredPeripheralsList: Binding<[String:PeripheralModel]>,
+         connectedPeripheralReference: Binding<PeripheralModel>,
+         compatiblePeripheralsList: [String: PeripheralUUIDsModel]?
+//        connectionSucessFlag: Binding<Bool>, scanTerminationFlag: Binding<Bool>, storeDiscoveredPeripheralClosure storeClosure: @escaping (CBPeripheral, NSNumber) -> (), purgeDiscoveredPeripheralsClosure purgeClosure: @escaping () -> (), compatiblePeripheralsList: [String: PeripheralUUIDsModel]?
+    ) {
+//        bluetoothqueue = queue
+        _connectionSuccess = connectionSuccessFlag
+        _scanTermination = scanTerminationFlag
+        _discoveredPeripherals = discoveredPeripheralsList
+        _connectedPeripheral = connectedPeripheralReference
         if compatiblePeripheralsList != nil {
             compatiblePeripherals = compatiblePeripheralsList!
         }
         super.init()
+//        storePeripheral = storeClosure
+//        purgePeripherals = purgeClosure
     }
     
     private func retrieveUUIDsOfCompatibleServices() -> [CBUUID]? {
@@ -52,19 +60,12 @@ public class ManagerDelegateModel: NSObject, CBCentralManagerDelegate {
     
     private func startScan(_ central: CBCentralManager) {
         let serviceUUIDList = retrieveUUIDsOfCompatibleServices()
-//        discoveredPeripherals = [:]
-        purgePeripherals()
-//        print(serviceUUIDList)
-        central.scanForPeripherals(withServices: serviceUUIDList, options: [CBCentralManagerScanOptionAllowDuplicatesKey : false])
+        central.scanForPeripherals(withServices: serviceUUIDList, options: [CBCentralManagerScanOptionAllowDuplicatesKey : true])
+        /*
         DispatchQueue.main.asyncAfter(deadline: .now()+1, execute: {
             central.stopScan()
-//            print(self.discoveredPeripherals)
-//            self.discoveredPeripherals.forEach { id, device in
-//                print(device.cbPeripheral.identifier.uuidString)
-//            }
-            self.connectionSuccess.wrappedValue = false
-//            self.scanCompleted.wrappedValue = false
         })
+         */
     }
     
     public func centralManagerDidUpdateState(_ central: CBCentralManager) {
@@ -100,23 +101,20 @@ public class ManagerDelegateModel: NSObject, CBCentralManagerDelegate {
     
     public func centralManager(_ central: CBCentralManager, didDiscover peripheral: CBPeripheral, advertisementData: [String : Any], rssi RSSI: NSNumber) {
         
-//        discoveredPeripherals[peripheral.identifier.uuidString] = BluetoothPeripheralModel(cbPeripheral: peripheral, rssi: RSSI)
-        storePeripheral(peripheral, RSSI)
-        
+        discoveredPeripherals[peripheral.identifier.uuidString] = PeripheralModel(cbPeripheral: peripheral, rssi: RSSI)
+//        storePeripheral(peripheral, RSSI)
         print("Peripheral Discovered: \(peripheral)")
         print("Identifier UUID: \(peripheral.identifier.uuidString)")
         print("Peripheral name: \(String(describing: peripheral.name))")
         print("Advertisement Data : \(advertisementData)\n")
-        
-//        centralManager!.stopScan()
 //        foundPeripheral = peripheral
 //        foundPeripheral?.delegate = self
 //        centralManager!.connect(foundPeripheral!, options: nil)
     }
     
-//    public func centralManager(_ central: CBCentralManager, didConnect peripheral: CBPeripheral) {
-//        btConnectionSucess.wrappedValue = true
-//        connectedPeripheral = discoveredPeripherals[peripheral.identifier.uuidString]
-////        foundPeripheral?.discoverServices(nil)
-//    }
+    public func centralManager(_ central: CBCentralManager, didConnect peripheral: CBPeripheral) {
+        connectionSuccess = true
+        connectedPeripheral = discoveredPeripherals[peripheral.identifier.uuidString]!
+//        foundPeripheral?.discoverServices(nil)
+    }
 }
