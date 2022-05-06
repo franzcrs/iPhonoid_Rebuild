@@ -6,7 +6,7 @@
 //  This version now has vectorial components as eyes and mouth, and one, two and
 //  three tap gestures are handled to change the facial expression
 //  
-//  Version: 0.4
+//  Version: 0.5
 //  Written using Swift 5.0
 //  Created by Franz Chuquirachi (@franzcrs) on 2022/02/08
 //  Copyright © 2022. All rights reserved.
@@ -19,6 +19,7 @@ struct FaceView: View {
     private var displayConventional = DisplayConventionalDimensions()
     private var orientationLock = OrientationLock()
     @EnvironmentObject var faceViewData: FaceViewModel
+    @EnvironmentObject var bluetooth: BluetoothModel
     
     var body: some View {
         HStack (alignment: .center, spacing: 0) {
@@ -120,12 +121,15 @@ struct FaceView: View {
                         .onEnded { gestureValue in
                 if gestureValue.second != nil {
                     faceViewData.sleep()
+                    bluetooth.sendCommand(of7chars: "irla002")
                 } else if gestureValue.first != nil {
                     faceViewData.sad()
+                    bluetooth.sendCommand(of7chars: "irla102")
                 }
             })
             .onTapGesture(perform: {
                 faceViewData.happy()
+                bluetooth.sendCommand(of7chars: "brhz002")
             })
             Rectangle()
                 .fill(.black)
@@ -133,12 +137,19 @@ struct FaceView: View {
         }
         .background(.black)
         .onAppear(perform:{
-            self.orientationLock.lock(UIInterfaceOrientation.landscapeRight)
-            }// Forcing rotation and locking the orientation to landscape right
+            self.orientationLock.lock(UIInterfaceOrientation.landscapeRight) // Forcing rotation and locking the orientation to landscape right
+            print(bluetooth.characteristicsForInteraction)
+            print(bluetooth.connectedPeripheral)
+            print(bluetooth.discoveredPeripherals)
+            bluetooth.sendCommand(of7chars: "brra001")
+        }
         )
         .onDisappear(perform:{
             self.orientationLock.unlock()
         })
+        .onChange(of: bluetooth.characteristicsForInteraction) { _ in
+            
+        }
     }
 }
 

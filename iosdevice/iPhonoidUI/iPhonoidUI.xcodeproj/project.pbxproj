@@ -18,7 +18,6 @@
 		B247B63227AD9787009B07EB /* EyeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B247B63127AD9787009B07EB /* EyeView.swift */; };
 		B248932C281418B600FA0351 /* ManagerDelegateModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B248932B281418B600FA0351 /* ManagerDelegateModel.swift */; };
 		B248932E281418C600FA0351 /* PeripheralDelegateModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B248932D281418C600FA0351 /* PeripheralDelegateModel.swift */; };
-		B248933028142DB400FA0351 /* BtPeripheralModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B248932F28142DB400FA0351 /* BtPeripheralModel.swift */; };
 		B248A03127BB90D000CA519F /* EyeModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B248A03027BB90D000CA519F /* EyeModel.swift */; };
 		B25DEB5D27C16161005D9083 /* Sides.swift in Sources */ = {isa = PBXBuildFile; fileRef = B25DEB5C27C16161005D9083 /* Sides.swift */; };
 		B25DEB5F27C1D817005D9083 /* ColorExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = B25DEB5E27C1D817005D9083 /* ColorExtension.swift */; };
@@ -30,7 +29,6 @@
 		B266B9AD27D4C0EB001E49EE /* LoadingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B266B9AC27D4C0EB001E49EE /* LoadingView.swift */; };
 		B266B9AF27D4C232001E49EE /* AppStateModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B266B9AE27D4C232001E49EE /* AppStateModel.swift */; };
 		B266B9B127D4CD64001E49EE /* PeripheralsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B266B9B027D4CD64001E49EE /* PeripheralsView.swift */; };
-		B27FD2E5280E8FAF00720D07 /* BtConnectivityModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B27FD2E4280E8FAF00720D07 /* BtConnectivityModel.swift */; };
 		B2B4383128110BE5008FCA07 /* PeripheralUUIDsModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2B4383028110BE5008FCA07 /* PeripheralUUIDsModel.swift */; };
 		B2CD385827BAE8C400C8BE44 /* EyeStates.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2CD385727BAE8C400C8BE44 /* EyeStates.swift */; };
 		B2D625A527B75D0E004F470F /* FaceViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2D625A427B75D0E004F470F /* FaceViewModel.swift */; };
@@ -52,7 +50,6 @@
 		B247B63127AD9787009B07EB /* EyeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EyeView.swift; sourceTree = "<group>"; };
 		B248932B281418B600FA0351 /* ManagerDelegateModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ManagerDelegateModel.swift; sourceTree = "<group>"; };
 		B248932D281418C600FA0351 /* PeripheralDelegateModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PeripheralDelegateModel.swift; sourceTree = "<group>"; };
-		B248932F28142DB400FA0351 /* BtPeripheralModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BtPeripheralModel.swift; sourceTree = "<group>"; };
 		B248A03027BB90D000CA519F /* EyeModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EyeModel.swift; sourceTree = "<group>"; };
 		B25DEB5C27C16161005D9083 /* Sides.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Sides.swift; sourceTree = "<group>"; };
 		B25DEB5E27C1D817005D9083 /* ColorExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorExtension.swift; sourceTree = "<group>"; };
@@ -65,7 +62,6 @@
 		B266B9AE27D4C232001E49EE /* AppStateModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppStateModel.swift; sourceTree = "<group>"; };
 		B266B9B027D4CD64001E49EE /* PeripheralsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PeripheralsView.swift; sourceTree = "<group>"; };
 		B27DAB8B280ED78E00C38022 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		B27FD2E4280E8FAF00720D07 /* BtConnectivityModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BtConnectivityModel.swift; sourceTree = "<group>"; };
 		B2B4383028110BE5008FCA07 /* PeripheralUUIDsModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PeripheralUUIDsModel.swift; sourceTree = "<group>"; };
 		B2CD385727BAE8C400C8BE44 /* EyeStates.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EyeStates.swift; sourceTree = "<group>"; };
 		B2D625A427B75D0E004F470F /* FaceViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FaceViewModel.swift; sourceTree = "<group>"; };
@@ -162,8 +158,6 @@
 		B248932A2814189100FA0351 /* Bluetooth */ = {
 			isa = PBXGroup;
 			children = (
-				B27FD2E4280E8FAF00720D07 /* BtConnectivityModel.swift */,
-				B248932F28142DB400FA0351 /* BtPeripheralModel.swift */,
 				B2B4383028110BE5008FCA07 /* PeripheralUUIDsModel.swift */,
 				B248932B281418B600FA0351 /* ManagerDelegateModel.swift */,
 				B248932D281418C600FA0351 /* PeripheralDelegateModel.swift */,
@@ -276,7 +270,6 @@
 				B266B9AD27D4C0EB001E49EE /* LoadingView.swift in Sources */,
 				B25DEB6327C1FDB1005D9083 /* MouthStates.swift in Sources */,
 				B25DEB6127C1F57A005D9083 /* MouthView.swift in Sources */,
-				B248933028142DB400FA0351 /* BtPeripheralModel.swift in Sources */,
 				B25DEB5F27C1D817005D9083 /* ColorExtension.swift in Sources */,
 				B2D625A527B75D0E004F470F /* FaceViewModel.swift in Sources */,
 				B248932E281418C600FA0351 /* PeripheralDelegateModel.swift in Sources */,
@@ -289,7 +282,6 @@
 				B248932C281418B600FA0351 /* ManagerDelegateModel.swift in Sources */,
 				B2ECB09827DFDA67004A0C69 /* CustomViewModifiers.swift in Sources */,
 				B21B77BD27A263D800BAAC66 /* iPhonoidUIApp.swift in Sources */,
-				B27FD2E5280E8FAF00720D07 /* BtConnectivityModel.swift in Sources */,
 				B247B63227AD9787009B07EB /* EyeView.swift in Sources */,
 				B248A03127BB90D000CA519F /* EyeModel.swift in Sources */,
 				B266B9AF27D4C232001E49EE /* AppStateModel.swift in Sources */,
